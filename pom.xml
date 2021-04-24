@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.4.5</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>no.ssb</groupId>
+	<artifactId>sivadmin</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>sivadmin</name>
+	<description>Sivadmin er en applikasjon man kan bruke for å  administrere og gjennomføre intervjuundersøkelser.  Den jobber tett sammen med Blaise, som er intervjusystemet i  SSB.  Målet med sivadmin er å  tilby funksjonalitet som enten ikke finnes i  Blaise, eller å   tilgjengeliggjøre denne på en enklere måte for flere brukere.    Formåletmed SIV er å   støtte datafangsten fra A-Å ved å   tilby de skjermbilder, søkemuligheter, rapporter og maler som er nødvendig for å   drive en strømlinjeformet og effektiv datafangst.  Støtte løsninger med kombinerte innsamlingsmetoder (web /  papir /  CATI, CAPI og kombinasjoner av disse) –   både mixed og multi mode.  Mulighet til    å   kunne følge datafangsten opp mot mål for prosjektetLagre prosessdata slik at en effektivt kan ta ut data til    kvalbarfiler, og legge til rette for adaptiv/responsiv datafangst. Prosessdataene bør inneholde all kontakt med IO, både initiert av IO, og fra intervjuer, svartjeneste, digital utsending osv.Lage grunnlag for utsendinger, initielle og purringer -  sms, epost og papirStyring av intervjuerressurser, tilgjengelighet, arbeidsfordeling.</description>
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.gmavenplus</groupId>
+				<artifactId>gmavenplus-plugin</artifactId>
+				<version>1.11.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>addSources</goal>
+							<goal>addTestSources</goal>
+							<goal>generateStubs</goal>
+							<goal>compile</goal>
+							<goal>generateTestStubs</goal>
+							<goal>compileTests</goal>
+							<goal>removeStubs</goal>
+							<goal>removeTestStubs</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
