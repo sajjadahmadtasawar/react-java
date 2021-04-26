@@ -1,90 +1,214 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<modelVersion>4.0.0</modelVersion>
+
+<groupId>no.ssb.sivadmin</groupId>
+<artifactId>sivadmin</artifactId>
+<version>0.0.1-SNAPSHOT</version>
+<packaging>jar</packaging>
+
+<name>Sivadmin</name>
+<description>Sivadmin er en applikasjon man kan bruke for å  administrere og gjennomføre intervjuundersøkelser.  Den jobber tett sammen med Blaise, som er intervjusystemet i  SSB.  Målet med sivadmin er å  tilby funksjonalitet som enten ikke finnes i  Blaise, eller å   tilgjengeliggjøre denne på en enklere måte for flere brukere.    Formåletmed SIV er å   støtte datafangsten fra A-Å ved å   tilby de skjermbilder, søkemuligheter, rapporter og maler som er nødvendig for å   drive en strømlinjeformet og effektiv datafangst.  Støtte løsninger med kombinerte innsamlingsmetoder (web /  papir /  CATI, CAPI og kombinasjoner av disse) –   både mixed og multi mode.  Mulighet til    å   kunne følge datafangsten opp mot mål for prosjektetLagre prosessdata slik at en effektivt kan ta ut data til    kvalbarfiler, og legge til rette for adaptiv/responsiv datafangst. Prosessdataene bør inneholde all kontakt med IO, både initiert av IO, og fra intervjuer, svartjeneste, digital utsending osv.Lage grunnlag for utsendinger, initielle og purringer -  sms, epost og papirStyring av intervjuerressurser, tilgjengelighet, arbeidsfordeling.</description>
+
+<parent>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-parent</artifactId>
+	<version>2.4.5</version>
+	<relativePath/> <!-- lookup parent from repository -->
+</parent>
+
+<properties>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	<lombok.version>1.18.12</lombok.version>
+	<maven.compiler.source>1.8</maven.compiler.source>
+	<maven.compiler.target>1.8</maven.compiler.target>
+	<maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
+	<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+	<frontend-maven-plugin.version>1.11.3</frontend-maven-plugin.version>
+	<graphql-spring-boot-starter.version>7.0.1</graphql-spring-boot-starter.version>
+	<java.version>1.8</java.version>
+	<start-class>no.ssb.sivadmin.SivadminApplication</start-class>
+</properties>
+
+<dependencies>
+	<dependency>
 		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.4.5</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
-	<groupId>no.ssb</groupId>
-	<artifactId>sivadmin</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
-	<name>sivadmin</name>
-	<description>Sivadmin er en applikasjon man kan bruke for å  administrere og gjennomføre intervjuundersøkelser.  Den jobber tett sammen med Blaise, som er intervjusystemet i  SSB.  Målet med sivadmin er å  tilby funksjonalitet som enten ikke finnes i  Blaise, eller å   tilgjengeliggjøre denne på en enklere måte for flere brukere.    Formåletmed SIV er å   støtte datafangsten fra A-Å ved å   tilby de skjermbilder, søkemuligheter, rapporter og maler som er nødvendig for å   drive en strømlinjeformet og effektiv datafangst.  Støtte løsninger med kombinerte innsamlingsmetoder (web /  papir /  CATI, CAPI og kombinasjoner av disse) –   både mixed og multi mode.  Mulighet til    å   kunne følge datafangsten opp mot mål for prosjektetLagre prosessdata slik at en effektivt kan ta ut data til    kvalbarfiler, og legge til rette for adaptiv/responsiv datafangst. Prosessdataene bør inneholde all kontakt med IO, både initiert av IO, og fra intervjuer, svartjeneste, digital utsending osv.Lage grunnlag for utsendinger, initielle og purringer -  sms, epost og papirStyring av intervjuerressurser, tilgjengelighet, arbeidsfordeling.</description>
-	<properties>
-		<java.version>1.8</java.version>
-	</properties>
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.groovy</groupId>
-			<artifactId>groovy</artifactId>
-		</dependency>
+		<artifactId>spring-boot-starter-security</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-actuator</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-data-jpa</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-web</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>io.jsonwebtoken</groupId>
+		<artifactId>jjwt</artifactId>
+		<version>0.9.1</version>
+	</dependency>
+	<dependency>
+		<groupId>javax.validation</groupId>
+		<artifactId>validation-api</artifactId>
+		<version>2.0.1.Final</version>
+	</dependency>
+	<dependency>
+		<groupId>com.graphql-java-kickstart</groupId>
+		<artifactId>graphql-spring-boot-starter</artifactId>
+		<version>${graphql-spring-boot-starter.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>com.graphql-java-kickstart</groupId>
+		<artifactId>graphiql-spring-boot-starter</artifactId>
+		<version>${graphql-spring-boot-starter.version}</version>
+		<scope>runtime</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-tomcat</artifactId>
+		<scope>provided</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-data-rest</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.codehaus.groovy</groupId>
+		<artifactId>groovy</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.projectlombok</groupId>
+		<artifactId>lombok</artifactId>
+		<version>${lombok.version}</version>
+		<scope>provided</scope>
+	</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>3.0</version>
-		</dependency>
-	</dependencies>
+	<dependency>
+		<groupId>com.h2database</groupId>
+		<artifactId>h2</artifactId>
+	</dependency>
 
-	<build>
-		<plugins>
-			<plugin>
+	<!-- test scope -->
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-test</artifactId>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+	</dependency>
+</dependencies>
+
+<build>
+	<finalName>Sivadmin</finalName>
+	<plugins>
+		<plugin>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-maven-plugin</artifactId>
+		</plugin>
+		<plugin>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>${maven-compiler-plugin.version}</version>
+		</plugin>
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-surefire-plugin</artifactId>
+			<version>${maven-surefire-plugin.version}</version>
+			<configuration>
+				<forkCount>3</forkCount>
+				<reuseForks>true</reuseForks>
+				<argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
+			</configuration>
+		</plugin>
+		<plugin>
+			<groupId>org.codehaus.gmavenplus</groupId>
+			<artifactId>gmavenplus-plugin</artifactId>
+			<version>1.11.0</version>
+			<executions>
+				<execution>
+					<goals>
+						<goal>addSources</goal>
+						<goal>addTestSources</goal>
+						<goal>generateStubs</goal>
+						<goal>compile</goal>
+						<goal>generateTestStubs</goal>
+						<goal>compileTests</goal>
+						<goal>removeStubs</goal>
+						<goal>removeTestStubs</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+	</plugins>
+</build>
+
+<profiles>
+	<profile>
+		<id>hotreload</id>
+		<dependencies>
+			<dependency>
 				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.gmavenplus</groupId>
-				<artifactId>gmavenplus-plugin</artifactId>
-				<version>1.11.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>addSources</goal>
-							<goal>addTestSources</goal>
-							<goal>generateStubs</goal>
-							<goal>compile</goal>
-							<goal>generateTestStubs</goal>
-							<goal>compileTests</goal>
-							<goal>removeStubs</goal>
-							<goal>removeTestStubs</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+				<artifactId>spring-boot-devtools</artifactId>
+			</dependency>
+		</dependencies>
+	</profile>
+	<profile>
+		<id>react</id>
+		<build>
+			<plugins>
+				<plugin>
+					<groupId>com.github.eirslett</groupId>
+					<artifactId>frontend-maven-plugin</artifactId>
+					<version>${frontend-maven-plugin.version}</version>
+
+					<configuration>
+						<nodeVersion>v12.18.4</nodeVersion>
+						<npmVersion>6.14.6</npmVersion>
+						<workingDirectory>src/main/frontend</workingDirectory>
+					</configuration>
+
+					<executions>
+						<execution>
+							<id>install node and npm</id>
+							<goals>
+								<goal>install-node-and-npm</goal>
+							</goals>
+						</execution>
+
+						<execution>
+							<id>npm install</id>
+							<goals>
+								<goal>npm</goal>
+							</goals>
+
+							<configuration>
+								<arguments>install</arguments>
+							</configuration>
+						</execution>
+
+						<execution>
+							<id>npm run-script build</id>
+							<goals>
+								<goal>npm</goal>
+							</goals>
+
+							<configuration>
+								<arguments>run-script build</arguments>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</build>
+	</profile>
+</profiles>
 
 </project>
