@@ -24,7 +24,7 @@ const Logginn: FC = () => {
 
   useEffect(() => {
     inputRef.current.focus();
-    localStorage.removeItem("user");
+    localStorage.removeItem("bruker");
   }, []);
 
   const handleBrukernavn = (e: BaseSyntheticEvent) => {
@@ -57,7 +57,6 @@ const Logginn: FC = () => {
           (res) => {
             if (res.status === 200) {
               localStorage.token = res.data.accessToken;
-              localStorage.bruker = JSON.stringify(res.data);
 
               window.location.href = "/";
             } else {

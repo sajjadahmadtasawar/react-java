@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import sivadmin.models.Bruker;
 
 import java.util.Date;
 
@@ -27,14 +28,18 @@ public class JwtTokenProvider {
 
         BrukerPrincipal brukerPrincipal = (BrukerPrincipal) authentication.getPrincipal();
 
+        BrukerInfo brukerInfo = new BrukerInfo(brukerPrincipal.getId(), brukerPrincipal.getNavn(), brukerPrincipal.getBrukernavn(), brukerPrincipal.getEpost(), brukerPrincipal.getAuthorities());
+
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
 
         return Jwts.builder()
-                .setSubject(Long.toString(brukerPrincipal.getId()))
+                .setId(Long.toString(brukerPrincipal.getId()))
+                .setSubject(brukerPrincipal.getBrukernavn())
                 .setIssuedAt(new Date())
                 .setExpiration(expiryDate)
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .claim("bruker", brukerInfo)
                 .compact();
     }
 
@@ -44,7 +49,7 @@ public class JwtTokenProvider {
                 .parseClaimsJws(token)
                 .getBody();
 
-        return Long.parseLong(claims.getSubject());
+        return Long.parseLong(claims.getId());
     }
 
     public boolean validateToken(String authToken) {

@@ -17,11 +17,10 @@ export const parseJwt = (token: string) => {
 }
 
 export const erAdmin = () => {
-  const bruker = localStorage.bruker;
-  const token = bruker?.accessToken;
+  const token = localStorage.token;
   const parsedToken = parseJwt(token);
 
-  if(bruker & token && parsedToken && parsedToken.role === 1) {
+  if(token && parsedToken && parsedToken.bruker.erAdmin) {
     return true;
   }
 
@@ -29,18 +28,20 @@ export const erAdmin = () => {
 }
 
 export const hentBrukerInfo = () => {
-  const bruker = localStorage.bruker;
-  const token = bruker?.accessToken;
-
+  const token = localStorage.token;
   const parsedToken = parseJwt(token);
 
-  if(bruker & token && parsedToken) {
+  console.log(parsedToken);
+
+  if(token && parsedToken) {
     const bruker: IBruker = {
-      brukernavn: parsedToken.brukernavn,
-      navn: parsedToken.navn,
-      roller: parsedToken.roller,
-      epost: parsedToken.epost
+      brukernavn: parsedToken.bruker.brukernavn,
+      navn: parsedToken.bruker.navn,
+      roller: parsedToken.bruker.roller,
+      epost: parsedToken.bruker.epost
     }
+
+    localStorage.bruker = bruker;
 
     return bruker;
   }
