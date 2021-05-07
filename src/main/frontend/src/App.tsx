@@ -1,26 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { FC } from 'react';
+import { Switch, Route, Link } from "react-router-dom";
+import { QueryClientProvider, QueryClient } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 
-function App() {
+import 'styles/styles.css';
+import 'styles/App.css';
+
+import Sidebar from 'components/Layout/Sidebar';
+import Login from 'components/Auth/Login';
+import Dashbaord from 'components/Layout/Dashboard';
+import NavbarLayout from 'components/Layout/NavbarLayout';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
+
+const App: FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <QueryClientProvider client={queryClient}>
+        <NavbarLayout />
+        <div id="layoutSidenav">
+          <Sidebar />
+          <div id="layoutSidenav_content">
+            <main>
+              <div className="container-fluid">
+                <Switch>
+                  <Route exact path="/login" component={Login} />
+                  <Route exact path="/" component={Dashbaord} />
+                </Switch>
+              </div>
+            </main>
+          </div>
+        </div>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+    </>
   );
-}
+};
 
 export default App;

@@ -1,0 +1,12 @@
+package sivadmin.models;
+
+public enum Roller {
+    ROLE_INTERVJUER,
+    ROLE_ADMIN,
+    ROLE_INTERVJUERKONTAKT,
+    ROLE_PLANLEGGER,
+    ROLE_SPORINGSPERSON,
+    ROLE_CAPITILDELING,
+    ROLE_SUPERVISOR,
+    ROLE_SIL
+}
