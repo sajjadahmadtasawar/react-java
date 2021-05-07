@@ -10,7 +10,7 @@ import { useHistory } from "react-router-dom";
 import { Alert, Button, Card, Col, Form, Row } from "react-bootstrap";
 import axios, { AxiosRequestConfig } from "axios";
 
-const Login: FC = () => {
+const Logginn: FC = () => {
   const [validated, setValidated] = useState(false);
 
   const history = useHistory();
@@ -18,8 +18,8 @@ const Login: FC = () => {
 
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [brukernavn, setBrukernavn] = useState("");
+  const [passord, setPassord] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
@@ -27,15 +27,15 @@ const Login: FC = () => {
     localStorage.removeItem("user");
   }, []);
 
-  const changeUserName = (e: BaseSyntheticEvent) => {
-    setUsername(e.currentTarget.value);
+  const handleBrukernavn = (e: BaseSyntheticEvent) => {
+    setBrukernavn(e.currentTarget.value);
   };
 
-  const changePassword = (e: BaseSyntheticEvent) => {
-    setPassword(e.currentTarget.value);
+  const handlePassord = (e: BaseSyntheticEvent) => {
+    setPassord(e.currentTarget.value);
   };
 
-  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
+  const handleLogginn = async (e: FormEvent<HTMLFormElement>) => {
     const form = e.currentTarget;
     e.preventDefault();
     e.stopPropagation();
@@ -46,18 +46,18 @@ const Login: FC = () => {
         "Content-Type": "application/json"
       },
 
-      data: { username: username, password: password },
+      data: { brukernavn: brukernavn, passord: passord },
     };
 
     if (form.checkValidity() === false) {
       setValidated(false);
     } else {
       try {
-        await axios(`${API_URL}/auth/login/`, requestOptions).then(
+        await axios(`${API_URL}/auth/logginn/`, requestOptions).then(
           (res) => {
             if (res.status === 200) {
               localStorage.token = res.data.accessToken;
-              localStorage.user = JSON.stringify(res.data);
+              localStorage.bruker = JSON.stringify(res.data);
 
               window.location.href = "/";
             } else {
@@ -88,14 +88,14 @@ const Login: FC = () => {
               className="mt-5"
               noValidate
               validated={validated}
-              onSubmit={handleLogin}
+              onSubmit={handleLogginn}
             >
               <Card>
                 <Card.Header>
                   <h3 className="mb-0">Logg inn til Sivadmin</h3>
                 </Card.Header>
                 <Card.Body>
-                  <Form.Group as={Row} controlId="username">
+                  <Form.Group as={Row} controlId="brukernavn">
                     <Form.Label column sm={3}>
                       Brukernavn
                       </Form.Label>
@@ -103,8 +103,8 @@ const Login: FC = () => {
                       <Form.Control
                         type="text"
                         ref={inputRef}
-                        onChange={changeUserName}
-                        value={username}
+                        onChange={handleBrukernavn}
+                        value={brukernavn}
                         placeholder="Brukernavn"
                         aria-describedby="inputGroupPrepend"
                         required
@@ -114,15 +114,15 @@ const Login: FC = () => {
                         </Form.Control.Feedback>
                     </Col>
                   </Form.Group>
-                  <Form.Group as={Row} controlId="password">
+                  <Form.Group as={Row} controlId="passord">
                     <Form.Label column sm={3}>
                       Passord
                       </Form.Label>
                     <Col sm={8}>
                       <Form.Control
                         type="password"
-                        onChange={changePassword}
-                        value={password}
+                        onChange={handlePassord}
+                        value={passord}
                         placeholder="Passord"
                         aria-describedby="inputGroupPrepend"
                         required
@@ -153,4 +153,4 @@ const Login: FC = () => {
   );
 };
 
-export default Login;
+export default Logginn;

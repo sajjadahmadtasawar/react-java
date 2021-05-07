@@ -1,3 +1,3 @@
 export interface IRole {
-    name: String;
+    rolle_navn: String;
 }

@@ -1,5 +1,4 @@
-import IUser from "models/IUser";
-import { DefaultUser } from "models/types";
+import IBruker from "models/IBruker";
 
 // Helper
 const StringIsNumber = (value: any) => isNaN(Number(value)) === true;
@@ -17,34 +16,33 @@ export const parseJwt = (token: string) => {
   return JSON.parse(window.atob(base64));
 }
 
-export const hasAdminRole = () => {
-  const user = localStorage.user;
-  const token = user?.accessToken;
+export const erAdmin = () => {
+  const bruker = localStorage.bruker;
+  const token = bruker?.accessToken;
   const parsedToken = parseJwt(token);
 
-  if(user & token && parsedToken && parsedToken.role === 1) {
+  if(bruker & token && parsedToken && parsedToken.role === 1) {
     return true;
   }
 
   return false;
 }
 
-export const getCurrentUserInfo = () => {
-  const user = localStorage.user;
-  const token = user?.accessToken;
+export const hentBrukerInfo = () => {
+  const bruker = localStorage.bruker;
+  const token = bruker?.accessToken;
 
   const parsedToken = parseJwt(token);
 
-  if(user & token && parsedToken) {
-    const user: IUser = {
-      username: parsedToken.username,
-      firstName: parsedToken.firstName,
-      lastName: parsedToken.lastName,
-      role: parsedToken.role,
-      email: parsedToken.email
+  if(bruker & token && parsedToken) {
+    const bruker: IBruker = {
+      brukernavn: parsedToken.brukernavn,
+      navn: parsedToken.navn,
+      roller: parsedToken.roller,
+      epost: parsedToken.epost
     }
 
-    return user;
+    return bruker;
   }
 
   return null;
@@ -54,44 +52,43 @@ export const daysInMonth = Array.from({ length: 31 }, (v, k) => k + 1);
 export const daysInWeek = [
     {
       id: 1,
-      day: "Monday",
+      day: "mandag",
     },
     {
       id: 2,
-      day: "Tuesday",
+      day: "tirsdag",
     },
     {
       id: 3,
-      day: "Wednesday",
+      day: "onsdag",
     },
     {
       id: 4,
-      day: "Thursday",
+      day: "torsdag",
     },
     {
       id: 5,
-      day: "Friday",
+      day: "fridag",
     },
     {
       id: 6,
-      day: "Saturday",
+      day: "lørdag",
     },
     {
       id: 7,
-      day: "Sunday",
+      day: "søndag",
     },
   ];
 
-const x = 30; //minutes interval
-const times = []; // time array
-let tt = 0; // start time
-const ap = ['00', '00']; // AM-PM
+const x = 30;
+const times = []; 
+let tt = 0; 
+const ap = ['00', '00']; 
 
-//loop to increment the time and push results in array
 for (var i=0;tt<24*60; i++) {
-  var hh = Math.floor(tt/60); // getting hours of day in 0-24 format
-  var mm = (tt%60); // getting minutes of the hour in 0-55 format
-  times[i] = ("0" + (hh % 12)).slice(-2) + ':' + ("0" + mm).slice(-2) + ":" + ap[Math.floor(hh/12)]; // pushing data in array in [00:00 - 12:00 AM/PM format]
+  var hh = Math.floor(tt/60); 
+  var mm = (tt%60); 
+  times[i] = ("0" + (hh % 12)).slice(-2) + ':' + ("0" + mm).slice(-2) + ":" + ap[Math.floor(hh/12)];
   tt = tt + x;
 }
 

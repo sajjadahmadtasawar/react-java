@@ -1,6 +1,6 @@
-import IUser from "models/IUser";
+import IBruker from "models/IBruker";
 
-export const DefaultUser: IUser = {
-    username: '',
-    email: ''
+export const DefaultUser: IBruker = {
+    brukernavn: '',
+    epost: ''
 }
