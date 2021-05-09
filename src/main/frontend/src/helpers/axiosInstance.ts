@@ -1,12 +1,14 @@
 import axios from "axios";
 
-export default (history: any = null) => {
+const axiosInstance =  (history: any = null) => {
   const API_URL = "http://localhost:8181/api";
 
   let headers = {};
 
-  if (localStorage.user) {
-    headers = { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.user.accessToken}` };
+  if (localStorage.bruker) {
+    headers = { 
+      'Content-Type': 'application/json', 
+      Authorization: `Bearer ${localStorage.token}` };
   }
 
   const axiosInstance = axios.create({
@@ -20,10 +22,12 @@ export default (history: any = null) => {
         resolve(response);
       }),
     (error) => {
-      history.push('/login')
+      history.push('/logginn')
       return Promise.reject(error);
     }
   );
 
   return axiosInstance;
-};
+}
+
+export default axiosInstance

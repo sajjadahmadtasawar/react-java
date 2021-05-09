@@ -1,0 +1,17 @@
+.card-header-active {
+    background-color: #eeee;
+    color: black;
+    cursor: pointer;
+}
+
+.card-header-inactive {
+    background-color: darkgray;
+    color: white;
+    cursor: pointer;
+}
+
+.card-header-critical {
+    background-color: #e2cccc;
+    font-weight: 900;
+    cursor: pointer;
+}

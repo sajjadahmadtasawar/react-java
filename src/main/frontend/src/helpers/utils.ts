@@ -31,8 +31,6 @@ export const hentBrukerInfo = () => {
   const token = localStorage.token;
   const parsedToken = parseJwt(token);
 
-  console.log(parsedToken);
-
   if(token && parsedToken) {
     const bruker: IBruker = {
       brukernavn: parsedToken.bruker.brukernavn,

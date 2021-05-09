@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import { BsBriefcase, BsBriefcaseFill } from "react-icons/bs";
 
 const Sidebar: FC = () => {
   const location = useLocation();
@@ -13,11 +14,13 @@ const Sidebar: FC = () => {
       >
         <div className="sb-sidenav-menu">
           <div className="nav">
+            <div className="sb-sidenav-menu-heading">
+              Velkommen til Sivadmin
+            </div>
+
             <Link
               className={
-                location.pathname === "/"
-                  ? "nav-link active"
-                  : "nav-link"
+                location.pathname === "/" ? "nav-link active" : "nav-link"
               }
               to={`/`}
             >
@@ -30,16 +33,20 @@ const Sidebar: FC = () => {
 
             <Link
               className={
-                location.pathname.includes("prosjekt")
+                location.pathname.includes("prosjekter")
                   ? "nav-link active"
                   : "nav-link"
               }
-              to={`/prosjekt`}
+              to={`/prosjekter`}
             >
               <div className="sb-nav-link-icon">
-                <i className="fas fa-bell"></i>
+                {location.pathname.includes("prosjekter") ? (
+                  <BsBriefcaseFill />
+                ) : (
+                  <BsBriefcase />
+                )}
               </div>
-              Prosjekt
+              Prosjekter
             </Link>
             <div className="sb-sidenav-menu-heading">Administrasjon</div>
             <div className="sb-sidenav-menu-heading">Intervjuer</div>

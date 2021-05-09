@@ -10,6 +10,7 @@ import Sidebar from 'components/Layout/Sidebar';
 import Dashbaord from 'components/Layout/Dashboard';
 import NavbarLayout from 'components/Layout/NavbarLayout';
 import Logginn from 'components/Auth/Logginn';
+import ProsjektListe from 'components/Prosjekt/Prosjekt.liste';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -32,6 +33,8 @@ const App: FC = () => {
                 <Switch>
                   <Route exact path="/logginn" component={Logginn} />
                   <Route exact path="/" component={Dashbaord} />
+                  <Route exact path="/prosjekter" component={ProsjektListe} />
+                  <Route exact path="/prosjekter/endre/:id" component={ProsjektListe} />
                 </Switch>
               </div>
             </main>

@@ -1,6 +1,7 @@
 package sivadmin.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import sivadmin.models.Bruker;
@@ -8,7 +9,7 @@ import sivadmin.models.Bruker;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+@RepositoryRestResource(collectionResourceRel = "brukere", path = "brukere")
 public interface BrukerRepository extends JpaRepository<Bruker, Long> {
     Optional<Bruker> findByEpost(String epost);
     Optional<Bruker> findByBrukernavnOrEpost(String brukernavn, String epost);

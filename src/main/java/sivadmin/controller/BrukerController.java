@@ -14,7 +14,7 @@ import sivadmin.security.BrukerPrincipal;
 import sivadmin.security.DenBruker;
 
 @RestController
-@RequestMapping("/api/brukere")
+@RequestMapping("api/brukere")
 public class BrukerController {
 
     @Autowired
