@@ -4,24 +4,24 @@ import { Link, useHistory } from "react-router-dom";
 import { Button, Card, Col, Form, Row } from "react-bootstrap";
 import IProsjekt from "models/Prosjekt/IProsjekt";
 import Prosjekt from "./Prosjekt";
-import useListe from "context/hooks/useListe";
 import ProsjektStatus from "enums/ProsjektStatus";
 import { ToArray } from "helpers/utils";
+import useProsjekter from "context/hooks/Prosjekt/useProsjekter";
+import IProsjektSok from "models/Prosjekt/IProsjektSok";
+import { DefaultProsjektSok } from "models/types";
 
 const ProsjektListe: FC = () => {
-  const [produktNummer, setProduktNummer] = useState("");
-  const [prosjektNavn, setProsjektNavn] = useState("");
-  const [aargang, setAargang] = useState("");
-  const [prosjektStatus, setProsjektStatus] = useState("");
-
-  const [filteredData, setFilteredData] = useState<IProsjekt[]>([]);
+  const [sok, setSok] = useState<IProsjektSok>(DefaultProsjektSok);
 
   const history = useHistory();
-  const { data, isFetching, refetch } = useListe("prosjekter");
+  const { data, isFetching, refetch } = useProsjekter(sok);
 
-  console.log(data);
   const handleChange = (e: BaseSyntheticEvent) => {
-    //   setKeyword(e.currentTarget.value);
+    const name = e.currentTarget.name as string;
+    const value = e.currentTarget.value as string;
+
+    setSok({ ...sok, [name]: value });
+    refetch();
   };
 
   const opprett = () => {
@@ -54,7 +54,8 @@ const ProsjektListe: FC = () => {
                 <Col>
                   <Form.Control
                     type="text"
-                    value={produktNummer}
+                    value={sok.produktNummer}
+                    name="produktNummer"
                     onChange={handleChange}
                     placeholder="Produktnummer"
                   />
@@ -69,7 +70,8 @@ const ProsjektListe: FC = () => {
                 <Col>
                   <Form.Control
                     type="text"
-                    value={prosjektNavn}
+                    value={sok.prosjektNavn}
+                    name="prosjektNavn"
                     onChange={handleChange}
                     placeholder="Prosjektnavn"
                   />
@@ -82,7 +84,8 @@ const ProsjektListe: FC = () => {
                 <Col>
                   <Form.Control
                     type="text"
-                    value={aargang}
+                    value={sok.aargang}
+                    name="aargang"
                     onChange={handleChange}
                     placeholder="Årgang"
                   />
@@ -95,7 +98,8 @@ const ProsjektListe: FC = () => {
                 <Col>
                   <Form.Control
                     as="select"
-                    value={prosjektStatus}
+                    value={sok.prosjektStatus}
+                    name="prosjektStatus"
                     onChange={handleChange}
                   >
                     <option key="" value="">
@@ -124,10 +128,9 @@ const ProsjektListe: FC = () => {
         <li className="breadcrumb-item active">
           Prosjekter{" "}
           {data &&
-            data._embedded &&
-            data._embedded.prosjekter &&
-            data._embedded.prosjekter.length > 0 &&
-            `(${data.page.totalElements})`}
+            data.prosjekter &&
+            data.prosjekter.length > 0 &&
+            `(${data.antall})`}
         </li>
       </ol>
       <Spinner
@@ -139,10 +142,9 @@ const ProsjektListe: FC = () => {
         <span className="sr-only">Laster...</span>
       </Spinner>
       {data &&
-        data._embedded &&
-        data._embedded.prosjekter &&
-        data._embedded.prosjekter.length > 0 &&
-        data._embedded.prosjekter.map((prosjekt: IProsjekt, index: number) => (
+        data.prosjekter &&
+        data.prosjekter.length > 0 &&
+        data.prosjekter.map((prosjekt: IProsjekt, index: number) => (
           <Prosjekt
             key={index}
             refetch={refetch}

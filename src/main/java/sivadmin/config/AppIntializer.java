@@ -41,8 +41,15 @@ public class AppIntializer {
         prosjektLeder.setInitialer("raz");
         prosjektLeder.setEpost("raz@ssb.no");
 
+        String navn = "Levekaar";
+
         // Lag test prosjekter
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 20; i++) {
+
+            if(i > 10) {
+                navn = "Demo";
+            }
+
             Calendar calen = Calendar.getInstance();
             calen.add(Calendar.DAY_OF_YEAR, 60 + i);
 
@@ -54,7 +61,7 @@ public class AppIntializer {
             prosjekt.setModus("En");
             prosjekt.setRegisterNummer("012" + i);
 
-            prosjekt.setProsjektNavn("Levekaar" + i);
+            prosjekt.setProsjektNavn(navn);
             prosjekt.setAargang("201" + i);
             prosjekt.setProsjektLeder(prosjektLeder1);
             prosjekt.setOppstartDato(new Date());

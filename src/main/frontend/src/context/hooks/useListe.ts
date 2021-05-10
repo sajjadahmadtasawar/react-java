@@ -3,7 +3,7 @@ import axiosInstance from "helpers/axiosInstance";
 import IRespons from "models/IRespons";
 
 const hentListe = async (uri: string) => {
-  const { data } = await axiosInstance().get(`/${uri}`);
+  const { data } = await axiosInstance().get(`/${uri}/liste`);
   return data;
 };
 

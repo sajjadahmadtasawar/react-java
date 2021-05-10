@@ -1,5 +1,6 @@
 import IBruker from "models/IBruker";
 import IProsjekt from "./Prosjekt/IProsjekt";
+import IProsjektSok from "./Prosjekt/IProsjektSok";
 
 export const DefaultBruker: IBruker = {
     brukernavn: '',
@@ -21,3 +22,13 @@ export const DefaultProsjekt: IProsjekt = {
     avslutningsDato: '',
     kommentar: ''
 }
+
+
+export const DefaultProsjektSok: IProsjektSok = {
+    prosjektNavn: '',
+    produktNummer: '',
+    aargang: '',
+    prosjektStatus: '',
+    sort: 'prosjektNavn',
+    asc: true
+ }

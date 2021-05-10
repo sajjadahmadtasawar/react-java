@@ -9,6 +9,15 @@ export const ToArray = (enumme: any) => {
     .map((key) => enumme[key]);
 };
 
+export const genererSok = (objekt: any) => {
+  let sokParam = "?";
+  for (const [key, value] of Object.entries(objekt)) {
+    sokParam += `${key}=${value}&`
+  }
+
+  return sokParam.slice(0, -1);
+}
+
 export const parseJwt = (token: string) => {
   if (!token) { return; }
   const base64Url = token.split('.')[1];
