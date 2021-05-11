@@ -5,4 +5,6 @@ export default interface IProsjektSok {
     prosjektStatus: string;
     sort: string;
     asc: boolean;
+    side: number;
+    visAntall: number;
 }

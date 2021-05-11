@@ -1,16 +1,17 @@
-import { FC } from 'react';
+import { FC } from "react";
 import { Switch, Route } from "react-router-dom";
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 
-import 'styles/styles.css';
-import 'styles/App.css';
+import "styles/styles.css";
+import "styles/App.css";
 
-import Sidebar from 'components/Layout/Sidebar';
-import Dashbaord from 'components/Layout/Dashboard';
-import NavbarLayout from 'components/Layout/NavbarLayout';
-import Logginn from 'components/Auth/Logginn';
-import ProsjektListe from 'components/Prosjekt/Prosjekt.liste';
+import Sidebar from "components/Layout/Sidebar";
+import Dashbaord from "components/Layout/Dashboard";
+import NavbarLayout from "components/Layout/NavbarLayout";
+import Logginn from "components/Auth/Logginn";
+import ProsjektListe from "components/Prosjekt/Prosjekt.liste";
+import ProsjektOpprett from "components/Prosjekt/Prosjekt.Opprett";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,7 +35,16 @@ const App: FC = () => {
                   <Route exact path="/logginn" component={Logginn} />
                   <Route exact path="/" component={Dashbaord} />
                   <Route exact path="/prosjekter" component={ProsjektListe} />
-                  <Route exact path="/prosjekter/endre/:id" component={ProsjektListe} />
+                  <Route
+                    exact
+                    path="/prosjekter/opprett"
+                    component={ProsjektOpprett}
+                  />
+                  <Route
+                    exact
+                    path="/prosjekter/endre/:id"
+                    component={ProsjektListe}
+                  />
                 </Switch>
               </div>
             </main>

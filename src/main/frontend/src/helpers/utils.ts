@@ -1,4 +1,5 @@
 import IBruker from "models/IBruker";
+import { forIn } from "lodash";
 
 // Helper
 const StringIsNumber = (value: any) => isNaN(Number(value)) === true;
@@ -8,6 +9,14 @@ export const ToArray = (enumme: any) => {
     .filter(StringIsNumber)
     .map((key) => enumme[key]);
 };
+
+export const EnumArray = (enumme: any) => {
+  const items: any = [];
+  forIn(enumme, (value, key) => items.push({key: key, value: value}));
+
+  return items;
+};
+
 
 export const genererSok = (objekt: any) => {
   let sokParam = "?";

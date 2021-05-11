@@ -44,7 +44,7 @@ public class AppIntializer {
         String navn = "Levekaar";
 
         // Lag test prosjekter
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 36; i++) {
 
             if(i > 10) {
                 navn = "Demo";
@@ -61,7 +61,7 @@ public class AppIntializer {
             prosjekt.setModus("En");
             prosjekt.setRegisterNummer("012" + i);
 
-            prosjekt.setProsjektNavn(navn);
+            prosjekt.setProsjektNavn(navn + i);
             prosjekt.setAargang("201" + i);
             prosjekt.setProsjektLeder(prosjektLeder1);
             prosjekt.setOppstartDato(new Date());

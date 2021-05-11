@@ -1,27 +1,57 @@
 import React, { BaseSyntheticEvent, FC, useState } from "react";
 import Spinner from "react-bootstrap/esm/Spinner";
-import { Link, useHistory } from "react-router-dom";
-import { Button, Card, Col, Form, Row } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
+import {
+  Button,
+  Card,
+  Col,
+  Form,
+  Row,
+  ToggleButton,
+  ToggleButtonGroup,
+} from "react-bootstrap";
 import IProsjekt from "models/Prosjekt/IProsjekt";
 import Prosjekt from "./Prosjekt";
 import ProsjektStatus from "enums/ProsjektStatus";
-import { ToArray } from "helpers/utils";
+import { EnumArray, ToArray } from "helpers/utils";
 import useProsjekter from "context/hooks/Prosjekt/useProsjekter";
 import IProsjektSok from "models/Prosjekt/IProsjektSok";
 import { DefaultProsjektSok } from "models/types";
+import PaginationControll from "components/Felles/PaginationControll";
+import ProsjektSorter from "enums/ProsjektSorter";
+import { BiSortDown, BiSortUp } from "react-icons/bi";
 
 const ProsjektListe: FC = () => {
   const [sok, setSok] = useState<IProsjektSok>(DefaultProsjektSok);
+  const [sort, setSort] = useState(1);
 
   const history = useHistory();
   const { data, isFetching, refetch } = useProsjekter(sok);
 
-  const handleChange = (e: BaseSyntheticEvent) => {
+  const haandterSok = (e: BaseSyntheticEvent) => {
     const name = e.currentTarget.name as string;
     const value = e.currentTarget.value as string;
 
-    setSok({ ...sok, [name]: value });
+    setSok({ ...sok, [name]: value, side: 1 });
     refetch();
+  };
+
+  const haandterSokSort = (val: number) => {
+    const asc = val === 1 ? true : false;
+    setSort(val);
+    setSok({ ...sok, asc: asc, side: 1 });
+    refetch();
+  };
+
+  const finnesData: boolean =
+    data && data.prosjekter && data.prosjekter.length > 0 ? true : false;
+
+  const setSide = (e: BaseSyntheticEvent) => {
+    const side = e.target.getAttribute("data-text");
+    if (side) {
+      setSok({ ...sok, side: side });
+      refetch();
+    }
   };
 
   const opprett = () => {
@@ -41,22 +71,25 @@ const ProsjektListe: FC = () => {
               </div>
             </Col>
             <Col sm="2">
-              <Button className="btn btn-sm mb-0 btn-secondary">
+              <Button
+                onClick={opprett}
+                className="btn btn-sm mb-0 ml-auto mr-0 btn-secondary"
+              >
                 Nytt prosjekt
               </Button>
             </Col>
           </Row>
         </Card.Header>
         <Card.Body>
-          <Row>
-            <Col sm="3">
+          <Row className="mx-0">
+            <Col sm="2" className="filter_col">
               <Form.Group as={Row} controlId="produktNummer">
                 <Col>
                   <Form.Control
                     type="text"
                     value={sok.produktNummer}
                     name="produktNummer"
-                    onChange={handleChange}
+                    onChange={haandterSok}
                     placeholder="Produktnummer"
                   />
                   <Form.Text className="text-muted">
@@ -72,35 +105,35 @@ const ProsjektListe: FC = () => {
                     type="text"
                     value={sok.prosjektNavn}
                     name="prosjektNavn"
-                    onChange={handleChange}
+                    onChange={haandterSok}
                     placeholder="Prosjektnavn"
                   />
                   <Form.Text className="text-muted">Søk etter navn</Form.Text>
                 </Col>
               </Form.Group>
             </Col>
-            <Col sm="3">
+            <Col sm="2">
               <Form.Group as={Row} controlId="aargang">
                 <Col>
                   <Form.Control
                     type="text"
                     value={sok.aargang}
                     name="aargang"
-                    onChange={handleChange}
+                    onChange={haandterSok}
                     placeholder="Årgang"
                   />
                   <Form.Text className="text-muted">Søk etter Årgang</Form.Text>
                 </Col>
               </Form.Group>
             </Col>
-            <Col sm="3">
+            <Col sm="2">
               <Form.Group as={Row} controlId="aargang">
                 <Col>
                   <Form.Control
                     as="select"
                     value={sok.prosjektStatus}
                     name="prosjektStatus"
-                    onChange={handleChange}
+                    onChange={haandterSok}
                   >
                     <option key="" value="">
                       Velg status
@@ -117,43 +150,94 @@ const ProsjektListe: FC = () => {
                 </Col>
               </Form.Group>
             </Col>
+            <Col sm="2">
+              <Form.Group as={Row} controlId="sorter">
+                <Col>
+                  <Form.Control
+                    as="select"
+                    value={sok.sort}
+                    name="sort"
+                    onChange={haandterSok}
+                  >
+                    <option key="" value="">
+                      Velg Sortering
+                    </option>
+                    {EnumArray(ProsjektSorter).map((arr: any) => (
+                      <option key={arr.key} value={arr.value}>
+                        {arr.key}
+                      </option>
+                    ))}
+                  </Form.Control>
+                  <Form.Text className="text-muted">
+                    Sorter prosjektliste
+                  </Form.Text>
+                </Col>
+              </Form.Group>
+            </Col>
+            <Col sm="1">
+              <ToggleButtonGroup
+                type="radio"
+                name="options"
+                defaultValue={sok.asc ? 1 : 2}
+                value={sort}
+                onChange={haandterSokSort}
+              >
+                <ToggleButton variant="outline-info" className="mr-1" value={1}>
+                  <BiSortDown />
+                </ToggleButton>
+                <ToggleButton variant="outline-info" value={2}>
+                  <BiSortUp />
+                </ToggleButton>
+              </ToggleButtonGroup>
+            </Col>
           </Row>
         </Card.Body>
       </Card>
 
-      <ol className="breadcrumb mb-3 mt-3">
-        <li className="breadcrumb-item">
-          <Link to={`/`}>Dashboard</Link>
-        </li>
-        <li className="breadcrumb-item active">
-          Prosjekter{" "}
+      <Card className="mt-3">
+        <Card.Header>
+          <Row className="mb-0 d-flex">
+            <Col sm="6" className="mt-1 align-self-start">
+              <span className="font-weight-bolder text-uppercase">
+                Prosjektliste {finnesData && `(${data?.antall})`}
+              </span>
+            </Col>
+
+            <Col sm="6">
+              {finnesData && data && (
+                <PaginationControll
+                  side={data.side}
+                  antallSider={data.antallSider}
+                  setSide={setSide}
+                />
+              )}
+            </Col>
+          </Row>
+        </Card.Header>
+        <Card.Body>
+          <Spinner
+            animation="border"
+            className="m-auto"
+            role="status"
+            hidden={!isFetching}
+          >
+            <span className="sr-only">Laster...</span>
+          </Spinner>
           {data &&
             data.prosjekter &&
             data.prosjekter.length > 0 &&
-            `(${data.antall})`}
-        </li>
-      </ol>
-      <Spinner
-        animation="border"
-        className="m-auto"
-        role="status"
-        hidden={!isFetching}
-      >
-        <span className="sr-only">Laster...</span>
-      </Spinner>
-      {data &&
-        data.prosjekter &&
-        data.prosjekter.length > 0 &&
-        data.prosjekter.map((prosjekt: IProsjekt, index: number) => (
-          <Prosjekt
-            key={index}
-            refetch={refetch}
-            objekt={prosjekt}
-            objektNavn="prosjekt"
-            apiURL="prosjekter"
-            routeURL="prosjekter"
-          />
-        ))}
+            data.prosjekter.map((prosjekt: IProsjekt, index: number) => (
+              <Prosjekt
+                key={index}
+                refetch={refetch}
+                objekt={prosjekt}
+                objektNavn="prosjekt"
+                apiURL="prosjekter"
+                routeURL="prosjekter"
+              />
+            ))}
+        </Card.Body>
+      </Card>
     </>
   );
 };

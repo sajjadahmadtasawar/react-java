@@ -6,7 +6,6 @@ import React, {
   useState,
 } from "react";
 
-
 import { Accordion, Button, Card, Col, Form, Row } from "react-bootstrap";
 import axios from "axios";
 import { useQuery } from "react-query";
@@ -18,11 +17,7 @@ interface RouteParams {
 }
 
 const ServiceEdit: FC = () => {
- 
-  return (
-    <>
-       </>
-  );
+  return <></>;
 };
 
 export default ServiceEdit;

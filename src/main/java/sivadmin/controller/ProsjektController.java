@@ -1,5 +1,6 @@
 package sivadmin.controller;
 
+import io.micrometer.core.annotation.Timed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,28 +32,28 @@ public class ProsjektController {
     ProsjektRepository prosjektRepository;
 
     @GetMapping("/liste")
+    @Timed
     public ResponseEntity<Map<String, Object>> hentListe(
             @RequestParam(required = false) String produktNummer,
             @RequestParam(required = false) String prosjektNavn,
             @RequestParam(required = false) String aargang,
             @RequestParam(required = false) String prosjektStatus,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "1") int side,
+            @RequestParam(defaultValue = "10") int visAntall,
             @RequestParam(defaultValue = "opprettetDato") String sort,
             @RequestParam(defaultValue = "false") Boolean asc
     ) {
 
         try {
             List<Prosjekt> prosjekter = new ArrayList<Prosjekt>();
-            Pageable paging = PageRequest.of(page, size, Sort.by(sort).ascending());
+
+            Pageable paging = PageRequest.of(side-1, visAntall, Sort.by(sort).ascending());
 
             if(!asc) {
-                paging = PageRequest.of(page, size, Sort.by(sort).descending());
+                paging = PageRequest.of(side-1, visAntall, Sort.by(sort).descending());
             }
 
             Page<Prosjekt> prosjektListe;
-
-            prosjektListe = prosjektRepository.findAll(paging);
             ProsjektSpecification prosjektSpecification = new ProsjektSpecification();
 
             if (!prosjektNavn.isEmpty())
@@ -73,7 +74,7 @@ public class ProsjektController {
 
             Map<String, Object> response = new HashMap<>();
             response.put("prosjekter", prosjekter);
-            response.put("side", prosjektListe.getNumber());
+            response.put("side", prosjektListe.getNumber() + 1);
             response.put("antall", prosjektListe.getTotalElements());
             response.put("antallSider", prosjektListe.getTotalPages());
 

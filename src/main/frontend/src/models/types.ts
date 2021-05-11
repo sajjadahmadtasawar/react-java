@@ -29,6 +29,8 @@ export const DefaultProsjektSok: IProsjektSok = {
     produktNummer: '',
     aargang: '',
     prosjektStatus: '',
-    sort: 'prosjektNavn',
-    asc: true
+    sort: 'id',
+    asc: true,
+    side: 1,
+    visAntall: 10
  }
