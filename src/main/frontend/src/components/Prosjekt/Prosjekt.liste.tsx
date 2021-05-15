@@ -138,9 +138,9 @@ const ProsjektListe: FC = () => {
                     <option key="" value="">
                       Velg status
                     </option>
-                    {ToArray(ProsjektStatus).map((key: number) => (
-                      <option key={key} value={ProsjektStatus[key]}>
-                        {ProsjektStatus[key]}
+                    {EnumArray(ProsjektStatus).map((arr: any) => (
+                      <option key={arr.value} value={arr.key}>
+                        {arr.key}
                       </option>
                     ))}
                   </Form.Control>

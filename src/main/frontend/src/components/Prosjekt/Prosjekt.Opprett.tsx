@@ -1,9 +1,6 @@
-import React, { BaseSyntheticEvent, FC, FormEvent, useState } from "react";
+import React, { BaseSyntheticEvent, FC, useState } from "react";
 
 import { DefaultProsjekt } from "models/types";
-
-import { Button, Card, Col, Form, Row } from "react-bootstrap";
-import { useQuery } from "react-query";
 import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosInstance from "helpers/axiosInstance";
@@ -25,11 +22,11 @@ const ProsjektOpprett: FC = () => {
     } else {
       try {
         await axiosInstance(history)
-          .post(`/api/prosjekter/`, prosjekt)
+          .post(`/prosjekter/opprett`, prosjekt)
           .then(() => history.push("/prosjekter"))
           .then(() => toast.success("Prosjekt opprettet !"));
       } catch (error) {
-        return error;
+        toast.error(`${error.message}`);
       }
     }
     setValidert(true);
@@ -37,9 +34,40 @@ const ProsjektOpprett: FC = () => {
 
   const haandterEndring = (e: BaseSyntheticEvent) => {
     const felt_navn = e.target.id as string;
-    const vurdi = e.currentTarget.value as string;
+    let vurdi = e.currentTarget.value as string;
 
-    setProsjekt({ ...prosjekt, [felt_navn]: vurdi });
+    if (felt_navn === "panel") {
+      vurdi = vurdi === "on" ? "true" : "false";
+    }
+
+    if (felt_navn === "produktNummer" && vurdi.length > 5) {
+      vurdi = vurdi.slice(0, 5);
+    }
+
+    if (felt_navn === "finansiering" && vurdi === "STAT") {
+      setProsjekt({
+        ...prosjekt,
+        finansiering: vurdi,
+        prosentStat: 100,
+        prosentMarked: 0,
+      });
+    } else if (felt_navn === "finansiering" && vurdi === "MARKED") {
+      setProsjekt({
+        ...prosjekt,
+        finansiering: vurdi,
+        prosentStat: 0,
+        prosentMarked: 100,
+      });
+    } else if (felt_navn === "finansiering" && vurdi === "STAT_MARKED") {
+      setProsjekt({
+        ...prosjekt,
+        finansiering: vurdi,
+        prosentStat: 0,
+        prosentMarked: 0,
+      });
+    } else {
+      setProsjekt({ ...prosjekt, [felt_navn]: vurdi });
+    }
   };
 
   return (

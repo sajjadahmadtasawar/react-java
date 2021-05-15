@@ -1,8 +1,8 @@
 enum ProsjektStatus {
-    Planlegging, 
-    Test, 
-    Aktiv, 
-    Avsluttet
+    Planlegging = "PLANNLEGGING", 
+    Test = "TEST", 
+    Aktiv = "AKTIV", 
+    Avsluttet = "AVSLUTTET"
 }
 
 export default ProsjektStatus;

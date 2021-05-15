@@ -1,5 +1,5 @@
 enum ProsjektSorter {
-    Opprettet = "opprettetDato", 
+    Opprettetdato = "opprettetDato", 
     Prosjektnavn = "prosjektNavn",
     Aargang = "aargang", 
     ProsjektStatus = "prosjektStatus",

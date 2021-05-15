@@ -1,4 +1,4 @@
-import IProsjektLeder from "./IProsjektLeder";
+import IProsjektLeder from "models/ProsjektLeder/IProsjektLeder";
 
 export default interface IProsjekt {
     id?: number;
@@ -11,9 +11,10 @@ export default interface IProsjekt {
     finansiering: string;
     prosentStat: number;
     prosentMarked: number;
-    panel?: boolean;
-    oppstartDato: string;
-    avslutningsDato: string;
+    panel: string;
+    oppstartDato: Date;
+    avslutningsDato: Date;
     kommentar: string;
-    prosjektLeder?: IProsjektLeder[];
+    prosjektLeder_id?: number;
+    prosjektLeder: IProsjektLeder;
 }

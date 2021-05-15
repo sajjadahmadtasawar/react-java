@@ -40,6 +40,7 @@ public class AppIntializer {
         prosjektLeder.setNavn("Braakjekk Seeberg");
         prosjektLeder.setInitialer("raz");
         prosjektLeder.setEpost("raz@ssb.no");
+        prosjektLederRepository.save(prosjektLeder);
 
         String navn = "Levekaar";
 
@@ -75,9 +76,6 @@ public class AppIntializer {
 
             prosjektRepository.save(prosjekt);
         }
-
-        prosjektLederRepository.save(prosjektLeder);
-
 
     }
 }

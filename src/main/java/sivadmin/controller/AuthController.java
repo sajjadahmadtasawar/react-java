@@ -16,10 +16,10 @@ import sivadmin.exception.AppException;
 import sivadmin.models.Bruker;
 import sivadmin.models.Rolle;
 import sivadmin.models.Roller;
-import sivadmin.payload.ApiResponse;
+import sivadmin.payload.ApiRespons;
 import sivadmin.payload.JwtAuthenticationResponse;
-import sivadmin.payload.LogginnRequest;
-import sivadmin.payload.OpprettBrukerRequest;
+import sivadmin.payload.Request.Logginn;
+import sivadmin.payload.Request.BrukerRequest;
 import sivadmin.repository.BrukerRepository;
 import sivadmin.repository.RolleRepository;
 import sivadmin.security.JwtTokenProvider;
@@ -47,12 +47,12 @@ public class AuthController {
     }
 
     @PostMapping("/logginn")
-    public ResponseEntity<?> authenticateBruker(@Valid @RequestBody LogginnRequest logginnRequest) {
+    public ResponseEntity<?> authenticateBruker(@Valid @RequestBody Logginn logginn) {
 
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        logginnRequest.getBrukernavn(),
-                        logginnRequest.getPassord()
+                        logginn.getBrukernavn(),
+                        logginn.getPassord()
                 )
         );
 
@@ -63,19 +63,19 @@ public class AuthController {
     }
 
     @PostMapping("/opprett")
-    public ResponseEntity<?> opprettBruker(@Valid @RequestBody OpprettBrukerRequest opprettBrukerRequest) {
-        if(brukerRepository.existsByBrukernavn(opprettBrukerRequest.getBrukernavn())) {
-            return new ResponseEntity(new ApiResponse(false, "Bruker med brukernavnet existerer!"),
+    public ResponseEntity<?> opprettBruker(@Valid @RequestBody BrukerRequest brukerRequest) {
+        if(brukerRepository.existsByBrukernavn(brukerRequest.getBrukernavn())) {
+            return new ResponseEntity(new ApiRespons(false, "Bruker med brukernavnet existerer!"),
                     HttpStatus.BAD_REQUEST);
         }
 
-        if(brukerRepository.existsByEpost(opprettBrukerRequest.getEpost())) {
-            return new ResponseEntity(new ApiResponse(false, "Bruker med epost adresse existerer!"),
+        if(brukerRepository.existsByEpost(brukerRequest.getEpost())) {
+            return new ResponseEntity(new ApiRespons(false, "Bruker med epost adresse existerer!"),
                     HttpStatus.BAD_REQUEST);
         }
 
-        Bruker bruker = new Bruker(opprettBrukerRequest.getNavn(), opprettBrukerRequest.getBrukernavn(),
-                opprettBrukerRequest.getEpost(), opprettBrukerRequest.getPassord());
+        Bruker bruker = new Bruker(brukerRequest.getNavn(), brukerRequest.getBrukernavn(),
+                brukerRequest.getEpost(), brukerRequest.getPassord());
 
         bruker.setPassord(passwordEncoder.encode(bruker.getPassord()));
 
@@ -90,6 +90,6 @@ public class AuthController {
                 .fromCurrentContextPath().path("/brukere/{brukername}")
                 .buildAndExpand(result.getBrukernavn()).toUri();
 
-        return ResponseEntity.created(location).body(new ApiResponse(true, "Bruker opprettet!"));
+        return ResponseEntity.created(location).body(new ApiRespons(true, "Bruker opprettet!"));
     }
 }

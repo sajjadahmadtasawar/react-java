@@ -6,7 +6,6 @@ import { genererSok } from "helpers/utils";
 
 const hentProsjekter = async (sok: IProsjektSok) => {
   const query = genererSok(sok);
-  console.log(query);
   const { data } = await axiosInstance().get(`/prosjekter/liste${query}`);
   return data;
 };

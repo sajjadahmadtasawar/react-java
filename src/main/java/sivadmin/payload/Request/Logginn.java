@@ -1,4 +1,4 @@
-package sivadmin.payload;
+package sivadmin.payload.Request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LogginnRequest {
+public class Logginn {
     @NotBlank
     private String brukernavn;
 

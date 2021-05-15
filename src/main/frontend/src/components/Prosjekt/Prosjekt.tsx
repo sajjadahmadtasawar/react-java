@@ -17,9 +17,13 @@ interface ExternalProps {
   routeURL: string;
 }
 
-const Prosjekt: FC<ExternalProps> = ({ objekt, refetch, objektNavn, apiURL, routeURL }) => {
+const Prosjekt: FC<ExternalProps> = ({
+  objekt,
+  refetch,
+  objektNavn,
+  routeURL,
+}) => {
   const history = useHistory();
-  const [visSkjema, setVisSkjema] = useState(false);
 
   // bekreftelse
   const [visBekreftelse, setVisBekreftelse] = useState(false);
@@ -27,8 +31,6 @@ const Prosjekt: FC<ExternalProps> = ({ objekt, refetch, objektNavn, apiURL, rout
   const [melding, setMelding] = useState("");
 
   const [admin, setAdmin] = useState(erAdmin());
-  const [endreModus, setEndreModus] = useState(false);
-
   const [valgt, setValgt] = useState<IProsjekt>(DefaultProsjekt);
 
   const endre = (objekt: IProsjekt) => {
@@ -62,7 +64,7 @@ const Prosjekt: FC<ExternalProps> = ({ objekt, refetch, objektNavn, apiURL, rout
     setVisBekreftelse(false);
   };
 
-  const visSkjemaer = (objekt: IProsjekt) => {}
+  const visSkjemaer = () => {};
 
   return (
     <Fragment>
@@ -76,10 +78,7 @@ const Prosjekt: FC<ExternalProps> = ({ objekt, refetch, objektNavn, apiURL, rout
 
       <Accordion className="mb-2">
         <Card>
-          <Accordion.Toggle
-            as={Card.Header}
-            eventKey={objekt.prosjektNavn}
-          >
+          <Accordion.Toggle as={Card.Header} eventKey={objekt.prosjektNavn}>
             <Row>
               <Col sm="8">
                 <h6 className="mt-2">{objekt.prosjektNavn}</h6>
@@ -87,7 +86,7 @@ const Prosjekt: FC<ExternalProps> = ({ objekt, refetch, objektNavn, apiURL, rout
               <Col sm="4" className="ml-auto">
                 <div className="d-flex">
                   <Button
-                    onClick={() => visSkjemaer(objekt)}
+                    onClick={() => visSkjemaer()}
                     className="btn btn-sm btn-info"
                   >
                     <i className="fas fa-meteor"></i> Skjemaer
@@ -105,7 +104,7 @@ const Prosjekt: FC<ExternalProps> = ({ objekt, refetch, objektNavn, apiURL, rout
                     title={
                       !admin
                         ? "Du har ikke tilgang til denne funksjonen !"
-                        : `Slett ${objektNavn}` 
+                        : `Slett ${objektNavn}`
                     }
                   >
                     <i className="fas fa-trash"></i> Fjern
@@ -124,15 +123,13 @@ const Prosjekt: FC<ExternalProps> = ({ objekt, refetch, objektNavn, apiURL, rout
                     {objekt.produktNummer}
                   </p>
                   <p>
-                    <span className="font-weight-bold">
-                      Årgang: 
-                    </span>
+                    <span className="font-weight-bold">Årgang:</span>
                     {objekt.aargang}
                   </p>
                 </Col>
                 <Col sm="4">
                   <p>
-                    <span className="font-weight-bold">Oppstartdato:  </span>
+                    <span className="font-weight-bold">Oppstartdato: </span>
                     {objekt.oppstartDato}
                   </p>
                   <p>
@@ -140,7 +137,6 @@ const Prosjekt: FC<ExternalProps> = ({ objekt, refetch, objektNavn, apiURL, rout
                     {objekt.avslutningsDato}
                   </p>
                 </Col>
-               
               </Row>
 
               <Row>
@@ -148,13 +144,11 @@ const Prosjekt: FC<ExternalProps> = ({ objekt, refetch, objektNavn, apiURL, rout
                   <Card>
                     <Card.Header>Prosjekt ledere</Card.Header>
                     <Card.Body>
-                      {objekt &&
-                        objekt.prosjektLeder &&
-                        objekt.prosjektLeder.length === 0 ? (
-                          <span>Ingen Prosjektledere !</span>
-                        ) :
-                       "ldere"
-                      }
+                      {objekt && objekt.prosjektLeder ? (
+                        <span>Ingen Prosjektledere !</span>
+                      ) : (
+                        "ldere"
+                      )}
                     </Card.Body>
                   </Card>
                 </Col>

@@ -1,19 +1,16 @@
 package sivadmin.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.NaturalId;
 import sivadmin.models.audit.DateAudit;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -31,7 +28,7 @@ public class Prosjekt extends DateAudit {
     private String prosjektNavn;
 
     @NotBlank
-    @Size(max = 7)
+    @Size(max = 5)
     private String produktNummer;
 
     private String aargang;
@@ -46,6 +43,22 @@ public class Prosjekt extends DateAudit {
     private Date avslutningsDato;
     private String kommentar;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER)
     private ProsjektLeder prosjektLeder;
+
+    public Prosjekt(@NotBlank @Size(max = 200) String prosjektNavn, @NotBlank @Size(max = 7) String produktNummer, String aargang, String registerNummer, String prosjektStatus, String modus, String finansiering, Long prosentStat, Long prosentMarked, Boolean panel, Date oppstartDato, Date avslutningsDato, String kommentar) {
+        this.prosjektNavn = prosjektNavn;
+        this.produktNummer = produktNummer;
+        this.aargang = aargang;
+        this.registerNummer = registerNummer;
+        this.prosjektStatus = prosjektStatus;
+        this.modus = modus;
+        this.finansiering = finansiering;
+        this.prosentStat = prosentStat;
+        this.prosentMarked = prosentMarked;
+        this.panel = panel;
+        this.oppstartDato = oppstartDato;
+        this.avslutningsDato = avslutningsDato;
+        this.kommentar = kommentar;
+    }
 }

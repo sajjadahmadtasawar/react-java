@@ -12,6 +12,7 @@ import NavbarLayout from "components/Layout/NavbarLayout";
 import Logginn from "components/Auth/Logginn";
 import ProsjektListe from "components/Prosjekt/Prosjekt.liste";
 import ProsjektOpprett from "components/Prosjekt/Prosjekt.Opprett";
+import ProsjektEndre from "components/Prosjekt/Prosjekt.Endre";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,7 +44,7 @@ const App: FC = () => {
                   <Route
                     exact
                     path="/prosjekter/endre/:id"
-                    component={ProsjektListe}
+                    component={ProsjektEndre}
                   />
                 </Switch>
               </div>

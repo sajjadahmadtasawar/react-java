@@ -66,6 +66,21 @@ export const hentBrukerInfo = () => {
 }
 
 export const daysInMonth = Array.from({ length: 31 }, (v, k) => k + 1);
+
+export const genererAarene = () => {
+  var maks = new Date().getFullYear();
+  var min = maks - 5;
+  var aarene = [];
+
+  for (var i = maks; i >= min; i--) {
+    aarene.push(i)
+  }
+
+  return aarene
+}
+
+export const aarene = genererAarene() || [];
+
 export const daysInWeek = [
     {
       id: 1,

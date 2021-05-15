@@ -1,4 +1,4 @@
-package sivadmin.payload;
+package sivadmin.payload.Request;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import javax.validation.constraints.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OpprettBrukerRequest {
+public class BrukerRequest {
     @NotBlank
     @Size(min = 4, max = 40)
     private String navn;

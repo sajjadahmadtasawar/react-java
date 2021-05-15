@@ -9,20 +9,19 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import sivadmin.models.Prosjekt;
+import org.springframework.web.bind.annotation.*;
+import sivadmin.exception.ResourceNotFoundException;
+import sivadmin.models.*;
+import sivadmin.payload.ApiRespons;
+import sivadmin.payload.Request.ProsjektRequest;
+import sivadmin.repository.ProsjektLederRepository;
 import sivadmin.repository.ProsjektRepository;
 import sivadmin.specifications.ProsjektSpecification;
 import sivadmin.specifications.SearchCriteria;
 import sivadmin.specifications.SearchOperation;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.validation.Valid;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/api/prosjekter", produces = { MediaType.APPLICATION_JSON_VALUE })
@@ -30,6 +29,9 @@ public class ProsjektController {
 
     @Autowired
     ProsjektRepository prosjektRepository;
+
+    @Autowired
+    ProsjektLederRepository prosjektLederRepository;
 
     @GetMapping("/liste")
     @Timed
@@ -82,5 +84,91 @@ public class ProsjektController {
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @GetMapping("/{id}")
+    public Prosjekt hentProsjektEtterId(@PathVariable(value = "id") Long id) {
+        Prosjekt prosjekt = prosjektRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Prosjekt", "navn", id));
+
+        return prosjekt;
+    }
+
+    @GetMapping("/sok/{prosjektNavn}")
+    public Prosjekt hentProsjektEtterNavn(@PathVariable(value = "prosjektNavn") String prosjektNavn) {
+        Prosjekt prosjekt = prosjektRepository.findByProsjektNavn(prosjektNavn)
+                .orElseThrow(() -> new ResourceNotFoundException("Prosjekt", "navn", prosjektNavn));
+
+        return prosjekt;
+    }
+
+    @PostMapping("/opprett")
+    public ResponseEntity<?> opprett(@Valid @RequestBody ProsjektRequest prosjektRequest) {
+        if(prosjektRepository.existsProsjektByProsjektNavn(prosjektRequest.getProsjektNavn())) {
+            return new ResponseEntity(new ApiRespons(false, "Prosjekt med dette navn existerer!"),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+
+        Prosjekt prosjekt = mapProsjekt(prosjektRequest);
+        Prosjekt result = prosjektRepository.save(prosjekt);
+
+        return new ResponseEntity(new ApiRespons(true, "Prosjekt opprettet!"),
+                HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/oppdater/{id}")
+    public ResponseEntity<?> oppdater(@PathVariable("id") Long id, @Valid @RequestBody ProsjektRequest prosjektRequest) {
+        sjekkProsjektById(id);
+
+        Prosjekt prosjekt = mapProsjekt(prosjektRequest);
+        Prosjekt result = prosjektRepository.save(prosjekt);
+
+        return new ResponseEntity(new ApiRespons(true, "Prosjekt oppdatert!"),
+                HttpStatus.OK);
+    }
+
+    @DeleteMapping("/slett/{id}")
+    public ResponseEntity<?> slett(@Valid @RequestBody Long id) {
+        sjekkProsjektById(id);
+        prosjektRepository.deleteById(id);
+
+        return new ResponseEntity(new ApiRespons(true, "Prosjekt slettet!"),
+                HttpStatus.OK);
+    }
+
+    private ResponseEntity<?> sjekkProsjektById(Long id) {
+        if(!prosjektRepository.existsById(id)) {
+            return new ResponseEntity(new ApiRespons(false, "Prosjekt med finnes ikke!"),
+                    HttpStatus.BAD_REQUEST);
+        }
+
+        return null;
+    }
+
+    private Prosjekt mapProsjekt(ProsjektRequest prosjektRequest) {
+        Prosjekt prosjekt = new Prosjekt(prosjektRequest.getProsjektNavn(),
+                prosjektRequest.getProduktNummer(),
+                prosjektRequest.getAargang(),
+                prosjektRequest.getRegisterNummer(),
+                prosjektRequest.getProsjektStatus(),
+                prosjektRequest.getModus(),
+                prosjektRequest.getFinansiering(),
+                prosjektRequest.getProsentStat(),
+                prosjektRequest.getProsentMarked(),
+                prosjektRequest.getPanel(),
+                prosjektRequest.getOppstartDato(),
+                prosjektRequest.getAvslutningsDato(),
+                prosjektRequest.getKommentar()
+        );
+
+        if(prosjektRequest.getProsjektLeder() != 0) {
+            ProsjektLeder prosjektLeder = prosjektLederRepository.getOne(prosjektRequest.getProsjektLeder());
+            if(prosjektLeder != null) {
+                prosjekt.setProsjektLeder(prosjektLeder);
+            }
+        }
+
+        return prosjekt;
     }
 }
