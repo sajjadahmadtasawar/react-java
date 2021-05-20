@@ -1,13 +1,12 @@
 import React, { BaseSyntheticEvent, FC, useState } from "react";
 
-import { DefaultProsjekt } from "models/types";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosInstance from "helpers/axiosInstance";
 import ProsjektSkjema from "./Prosjekt.Skjema";
 import IProsjekt from "models/Prosjekt/IProsjekt";
 import { useQuery } from "react-query";
-import IProsjektLeder from "models/ProsjektLeder/IProsjektLeder";
+import DefaultProsjekt from "types/DefaultProsjekt";
 
 interface RouteParams {
   id: string;
@@ -29,7 +28,11 @@ const ProsjektEndre: FC = () => {
     const { data } = await axiosInstance(history).get(
       `/prosjekter/${params.id}`
     );
-    setProsjekt(data);
+    setProsjekt({
+      ...data,
+      prosjektLeder_id:
+        data.prosjektLeder.id && data.prosjektLeder ? data.prosjektLeder.id : 0,
+    });
     return data;
   });
 
@@ -59,6 +62,13 @@ const ProsjektEndre: FC = () => {
 
     if (felt_navn === "panel") {
       vurdi = vurdi === "on" ? "true" : "false";
+    }
+
+    if (felt_navn === "prosjektLeder") {
+      setProsjekt({
+        ...prosjekt,
+        prosjektLeder_id: Number(vurdi),
+      });
     }
 
     if (felt_navn === "finansiering" && vurdi === "STAT") {

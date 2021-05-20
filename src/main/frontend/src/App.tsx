@@ -13,6 +13,9 @@ import Logginn from "components/Auth/Logginn";
 import ProsjektListe from "components/Prosjekt/Prosjekt.liste";
 import ProsjektOpprett from "components/Prosjekt/Prosjekt.Opprett";
 import ProsjektEndre from "components/Prosjekt/Prosjekt.Endre";
+import SkjemaListe from "components/Skjema/Skjema.liste";
+import SkjemaOpprett from "components/Skjema/Skjema.Opprett";
+import SkjemaEndre from "components/Skjema/Skjema.Endre";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -45,6 +48,17 @@ const App: FC = () => {
                     exact
                     path="/prosjekter/endre/:id"
                     component={ProsjektEndre}
+                  />
+                  <Route exact path="/skjemaer" component={SkjemaListe} />
+                  <Route
+                    exact
+                    path="/skjemaer/opprett"
+                    component={SkjemaOpprett}
+                  />
+                  <Route
+                    exact
+                    path="/skjemaer/endre/:id"
+                    component={SkjemaEndre}
                   />
                 </Switch>
               </div>

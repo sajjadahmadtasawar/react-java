@@ -1,7 +1,12 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { BsBriefcase, BsBriefcaseFill } from "react-icons/bs";
+import {
+  BsBriefcase,
+  BsBriefcaseFill,
+  BsFillInboxesFill,
+  BsFillInboxFill,
+} from "react-icons/bs";
 
 const Sidebar: FC = () => {
   const location = useLocation();
@@ -46,7 +51,24 @@ const Sidebar: FC = () => {
                   <BsBriefcase />
                 )}
               </div>
-              Prosjekter
+              Prosjekt
+            </Link>
+            <Link
+              className={
+                location.pathname.includes("skjemaer")
+                  ? "nav-link active"
+                  : "nav-link"
+              }
+              to={`/skjemaer`}
+            >
+              <div className="sb-nav-link-icon">
+                {location.pathname.includes("skjemaer") ? (
+                  <BsFillInboxesFill />
+                ) : (
+                  <BsFillInboxFill />
+                )}
+              </div>
+              Skjema
             </Link>
             <div className="sb-sidenav-menu-heading">Administrasjon</div>
             <div className="sb-sidenav-menu-heading">Intervjuer</div>

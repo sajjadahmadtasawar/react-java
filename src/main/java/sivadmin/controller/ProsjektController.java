@@ -13,12 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import sivadmin.exception.ResourceNotFoundException;
 import sivadmin.models.*;
 import sivadmin.payload.ApiRespons;
+import sivadmin.payload.Dto.ProsjektDto;
 import sivadmin.payload.Request.ProsjektRequest;
 import sivadmin.repository.ProsjektLederRepository;
 import sivadmin.repository.ProsjektRepository;
-import sivadmin.specifications.ProsjektSpecification;
 import sivadmin.specifications.SearchCriteria;
 import sivadmin.specifications.SearchOperation;
+import sivadmin.specifications.SokSpecification;
 
 import javax.validation.Valid;
 import java.util.*;
@@ -56,21 +57,21 @@ public class ProsjektController {
             }
 
             Page<Prosjekt> prosjektListe;
-            ProsjektSpecification prosjektSpecification = new ProsjektSpecification();
+            SokSpecification<Prosjekt> sokSpecification = new SokSpecification<Prosjekt>();
 
             if (!prosjektNavn.isEmpty())
-                prosjektSpecification.add(new SearchCriteria("prosjektNavn", prosjektNavn, SearchOperation.MATCH));
+                sokSpecification.add(new SearchCriteria("prosjektNavn", prosjektNavn, SearchOperation.MATCH));
 
             if (!produktNummer.isEmpty())
-                prosjektSpecification.add(new SearchCriteria("produktNummer", produktNummer, SearchOperation.MATCH));
+                sokSpecification.add(new SearchCriteria("produktNummer", produktNummer, SearchOperation.MATCH));
 
             if (!aargang.isEmpty())
-                prosjektSpecification.add(new SearchCriteria("aargang", aargang, SearchOperation.MATCH));
+                sokSpecification.add(new SearchCriteria("aargang", aargang, SearchOperation.MATCH));
 
             if (!prosjektStatus.isEmpty())
-                prosjektSpecification.add(new SearchCriteria("prosjektStatus", prosjektStatus, SearchOperation.EQUAL));
+                sokSpecification.add(new SearchCriteria("prosjektStatus", prosjektStatus, SearchOperation.EQUAL));
 
-            prosjektListe = prosjektRepository.findAll(prosjektSpecification, paging);
+            prosjektListe = prosjektRepository.findAll(sokSpecification, paging);
 
             prosjekter = prosjektListe.getContent();
 
@@ -162,8 +163,8 @@ public class ProsjektController {
                 prosjektRequest.getKommentar()
         );
 
-        if(prosjektRequest.getProsjektLeder() != 0) {
-            ProsjektLeder prosjektLeder = prosjektLederRepository.getOne(prosjektRequest.getProsjektLeder());
+        if(prosjektRequest.getProsjektLeder_id() != 0 && prosjektRequest.getProsjektLeder_id() != null) {
+            ProsjektLeder prosjektLeder = prosjektLederRepository.getOne(prosjektRequest.getProsjektLeder_id());
             if(prosjektLeder != null) {
                 prosjekt.setProsjektLeder(prosjektLeder);
             }

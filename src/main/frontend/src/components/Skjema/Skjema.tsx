@@ -1,24 +1,24 @@
 import React, { BaseSyntheticEvent, FC, Fragment, useState } from "react";
 import { Accordion, Button, Card, Col, Form, Row } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
-import "./Prosjekt.css";
+import "./Skjema.css";
 import { Delete } from "context/hooks/crud";
 import { toast } from "react-toastify";
 import { erAdmin } from "helpers/utils";
 import Bekreftelse from "../Felles/Bekreftelse";
-import IProsjekt from "models/Prosjekt/IProsjekt";
+import ISkjema from "models/Skjema/ISkjema";
 import moment from "moment";
-import DefaultProsjekt from "types/DefaultProsjekt";
+import DefaultSkjema from "types/DefaultSkjema";
 
 interface ExternalProps {
-  objekt: IProsjekt;
+  objekt: ISkjema;
   refetch: () => void;
   objektNavn: string;
   apiURL: string;
   routeURL: string;
 }
 
-const Prosjekt: FC<ExternalProps> = ({
+const Skjema: FC<ExternalProps> = ({
   objekt,
   refetch,
   objektNavn,
@@ -32,13 +32,13 @@ const Prosjekt: FC<ExternalProps> = ({
   const [melding, setMelding] = useState("");
 
   const [admin, setAdmin] = useState(erAdmin());
-  const [valgt, setValgt] = useState<IProsjekt>(DefaultProsjekt);
+  const [valgt, setValgt] = useState<ISkjema>(DefaultSkjema);
 
-  const endre = (objekt: IProsjekt) => {
+  const endre = (objekt: ISkjema) => {
     history.push(`/${routeURL}/endre/${objekt.id}`);
   };
 
-  const slett = (objekt: IProsjekt) => {
+  const slett = (objekt: ISkjema) => {
     if (objekt.id && admin)
       Delete(objekt.id, objektNavn)
         .then(() => history.push(`/${routeURL}`))
@@ -47,10 +47,10 @@ const Prosjekt: FC<ExternalProps> = ({
         .catch((error: Error) => toast.error(error.message));
   };
 
-  const bekreftSlett = (objekt: IProsjekt) => {
+  const bekreftSlett = (objekt: ISkjema) => {
     setValgt(objekt);
     setMelding(
-      `Du skal slette ${objekt}: <span class="text-danger font-weight-bold">${objekt.prosjektNavn}</span>. Vennligst bekreft?`
+      `Du skal slette ${objekt}: <span class="text-danger font-weight-bold">${objekt.skjemaNavn}</span>. Vennligst bekreft?`
     );
     setVisBekreftelse(true);
   };
@@ -79,10 +79,10 @@ const Prosjekt: FC<ExternalProps> = ({
 
       <Accordion className="mb-2">
         <Card>
-          <Accordion.Toggle as={Card.Header} eventKey={objekt.prosjektNavn}>
+          <Accordion.Toggle as={Card.Header} eventKey={objekt.skjemaNavn}>
             <Row>
               <Col sm="8">
-                <h6 className="mt-2">{objekt.prosjektNavn}</h6>
+                <h6 className="mt-2">{objekt.skjemaNavn}</h6>
               </Col>
               <Col sm="4" className="ml-auto">
                 <div className="d-flex">
@@ -114,84 +114,63 @@ const Prosjekt: FC<ExternalProps> = ({
               </Col>
             </Row>
           </Accordion.Toggle>
-          <Accordion.Collapse eventKey={objekt.prosjektNavn}>
+          <Accordion.Collapse eventKey={objekt.skjemaNavn}>
             <Card.Body>
-              <p className="py-2">{objekt.prosjektNavn}</p>
+              <p className="py-2">{objekt.skjemaNavn}</p>
               <Row>
                 <Col sm="4">
                   <p>
-                    <span className="font-weight-bold">Prodkutnummer: </span>
-                    {objekt.produktNummer}
+                    <span className="font-weight-bold">Skjekakortnavn: </span>
+                    {objekt.skjemaKortNavn}
                   </p>
                   <p>
-                    <span className="font-weight-bold">Registernummer: </span>
-                    {objekt.registerNummer}
+                    <span className="font-weight-bold">DelProdkutnummer: </span>
+                    {objekt.delProduktNummer}
                   </p>
+
                   <p>
-                    <span className="font-weight-bold">Modus: </span>
-                    {objekt.modus}
-                  </p>
-                  <p>
-                    <span className="font-weight-bold">Prosjektstatus: </span>
-                    {objekt.prosjektStatus}
+                    <span className="font-weight-bold">Status: </span>
+                    {objekt.status}
                   </p>
                 </Col>
                 <Col sm="4">
                   <p>
-                    <span className="font-weight-bold">Årgang: </span>
-                    {objekt.aargang}
+                    <span className="font-weight-bold">Undersøkelsetype: </span>
+                    {objekt.undersokelseType}
                   </p>
                   <p>
-                    <span className="font-weight-bold">Oppstartdato: </span>
-                    {moment(objekt.oppstartDato).format("DD.MM.YYYY")}
+                    <span className="font-weight-bold">
+                      OppstartDataInnsamling:{" "}
+                    </span>
+                    {moment(objekt.oppstartDataInnsamling).format("DD.MM.YYYY")}
                   </p>
                   <p>
-                    <span className="font-weight-bold">Avslutningsdato: </span>
-                    {moment(objekt.avslutningsDato).format("DD.MM.YYYY")}
+                    <span className="font-weight-bold">
+                      PlanlagtSluttDato:{" "}
+                    </span>
+                    {moment(objekt.planlagtSluttDato).format("DD.MM.YYYY")}
                   </p>
                 </Col>
                 <Col sm="4">
                   <p>
-                    <span className="font-weight-bold">Finansiering: </span>
-                    {objekt.finansiering}
+                    <span className="font-weight-bold">
+                      AktivertForIntervjuing:{" "}
+                    </span>
+                    <input
+                      type="checkbox"
+                      checked={objekt.aktivertForIntervjuing}
+                    />
                   </p>
                   <p>
-                    <span className="font-weight-bold">Stat: </span>
-                    {objekt.prosentStat} %
+                    <span className="font-weight-bold">KlarTilUtsending: </span>
+                    <input type="checkbox" checked={objekt.klarTilUtsending} />
                   </p>
                   <p>
-                    <span className="font-weight-bold">Marked: </span>
-                    {objekt.prosentMarked} %
+                    <span className="font-weight-bold">
+                      KlarTilGenerering:{" "}
+                    </span>
+                    <input type="checkbox" checked={objekt.klarTilGenerering} />
                   </p>
-                </Col>
-              </Row>
-              <Row>
-                <Col sm="12" className="mt-3">
-                  <Card>
-                    <Card.Header>Prosjekt leder</Card.Header>
-                    <Card.Body>
-                      {objekt && objekt.prosjektLeder ? (
-                        <table className="table table-bordered">
-                          <thead>
-                            <tr>
-                              <th>Navn</th>
-                              <th>Initialer</th>
-                              <th>Epost</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>{objekt.prosjektLeder.navn}</td>
-                              <td>{objekt.prosjektLeder.initialer}</td>
-                              <td>{objekt.prosjektLeder.epost}</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      ) : (
-                        <span>Ingen Prosjektledere !</span>
-                      )}
-                    </Card.Body>
-                  </Card>
                 </Col>
               </Row>
             </Card.Body>
@@ -202,4 +181,4 @@ const Prosjekt: FC<ExternalProps> = ({
   );
 };
 
-export default Prosjekt;
+export default Skjema;

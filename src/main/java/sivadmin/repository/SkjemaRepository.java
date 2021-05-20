@@ -7,16 +7,17 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 import sivadmin.models.Prosjekt;
-import sivadmin.models.ProsjektLeder;
-import sivadmin.payload.Dto.ProsjektDto;
+import sivadmin.models.Skjema;
 
 import java.util.Optional;
 
 @Repository
-public interface ProsjektRepository extends JpaRepository<Prosjekt, Long>,
-        JpaSpecificationExecutor<Prosjekt> {
-    Page<Prosjekt> findAll(Specification<Prosjekt> spec, Pageable pageable);
-    boolean existsProsjektByProsjektNavn(String prosjektNavn);
-    Optional<Prosjekt> findByProsjektNavn(String prosjektNavn);
-    Prosjekt findFirstByOrderByIdAsc();
+public interface SkjemaRepository extends JpaRepository<Skjema, Long>,
+        JpaSpecificationExecutor<Skjema> {
+    Page<Skjema> findAll(Specification<Skjema> spec, Pageable pageable);
+    boolean existsSkjemaBySkjemaNavn(String skjemaNavn);
+    boolean existsSkjemaBySkjemaKortNavn(String skjemaKortNavn);
+    Optional<Skjema> findBySkjemaNavn(String skjemaNavn);
+    Skjema findFirstByOrderByIdAsc();
+
 }

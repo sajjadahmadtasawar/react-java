@@ -5,13 +5,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import sivadmin.models.Bruker;
 import sivadmin.models.Prosjekt;
 import sivadmin.models.ProsjektLeder;
+import sivadmin.models.Skjema;
 import sivadmin.repository.BrukerRepository;
 import sivadmin.repository.ProsjektLederRepository;
 import sivadmin.repository.ProsjektRepository;
+import sivadmin.repository.SkjemaRepository;
 
 import javax.annotation.PostConstruct;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 import java.util.TimeZone;
 
 public class AppIntializer {
@@ -23,6 +26,9 @@ public class AppIntializer {
 
     @Autowired
     ProsjektLederRepository prosjektLederRepository;
+
+    @Autowired
+    SkjemaRepository skjemaRepository;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -74,8 +80,18 @@ public class AppIntializer {
             prosjekt.setKommentar("ingen");
 
 
+            Skjema skjema = new Skjema();
+            skjema.setSkjemaNavn("skjema" + i);
+            skjema.setSkjemaKortNavn("kortnavn" + i);
+            skjema.setDelProduktNummer("3883" + i);
+            skjema.setProsjekt(prosjekt);
+
+            prosjekt.getSkjemaer().add(skjema);
             prosjektRepository.save(prosjekt);
+
         }
+
+
 
     }
 }

@@ -9,9 +9,9 @@ import ProsjektFinansiering from "enums/ProsjektFinansiering";
 import ProsjektStatus from "enums/ProsjektStatus";
 import IProsjektLeder from "models/ProsjektLeder/IProsjektLeder";
 import IProsjektLederSok from "models/ProsjektLeder/IProsjektLederSok";
-import { DefaultProsjektLederSok } from "models/types";
 import useProsjektLedereSok from "context/hooks/ProsjektLeder/useProsjektLedere";
 import moment from "moment";
+import DefaultProsjektLederSok from "types/DefaultProsjektLederSok";
 
 interface Parametere {
   prosjekt: IProsjekt;
@@ -165,7 +165,7 @@ const ProsjektSkjema: FC<Parametere> = ({
                   value={prosjekt.prosjektLeder.id}
                   onChange={haandterEndring}
                 >
-                  <option key="0" value="">
+                  <option key="0" value="0">
                     Velg prosjektleder
                   </option>
                   {lederListe &&

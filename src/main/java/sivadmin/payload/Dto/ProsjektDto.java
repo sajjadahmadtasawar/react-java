@@ -1,34 +1,27 @@
-package sivadmin.payload.Request;
+package sivadmin.payload.Dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import sivadmin.models.ProsjektLeder;
+import sivadmin.models.Skjema;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProsjektRequest {
-    @NotBlank
-    @Size(min = 4, max = 200)
+public class ProsjektDto {
+    private Long id;
     private String prosjektNavn;
-
-    @NotBlank
-    @Size(max = 5)
     private String produktNummer;
-
-    @NotBlank
     private String aargang;
-
     private String registerNummer;
     private String prosjektStatus;
     private String modus;
@@ -37,10 +30,8 @@ public class ProsjektRequest {
     private Long prosentMarked;
     private Boolean panel;
     private Date oppstartDato;
-
-    @NotBlank
     private Date avslutningsDato;
     private String kommentar;
-
-    private Long prosjektLeder_id;
+    private ProsjektLeder prosjektLeder;
+    private List<Skjema> skjemaer;
 }

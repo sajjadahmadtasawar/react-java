@@ -1,4 +1,5 @@
 import IProsjektLeder from "models/ProsjektLeder/IProsjektLeder";
+import ISkjema from "models/Skjema/ISkjema";
 
 export default interface IProsjekt {
     id?: number;
@@ -17,4 +18,5 @@ export default interface IProsjekt {
     kommentar: string;
     prosjektLeder_id?: number;
     prosjektLeder: IProsjektLeder;
+    skjemaer: ISkjema[];
 }
