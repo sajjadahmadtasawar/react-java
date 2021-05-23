@@ -89,7 +89,7 @@ public class ProsjektDeltagerController {
     }
 
     @GetMapping("/{id}")
-    public ProsjektDeltager hentProsjektEtterId(@PathVariable(value = "id") Long id) {
+    public ProsjektDeltager hentId(@PathVariable(value = "id") Long id) {
         return prosjektDeltagerRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Prosjekt deltager", "navn", id));
     }
@@ -101,7 +101,7 @@ public class ProsjektDeltagerController {
         try {
             prosjektDeltagerRepository.save(prosjektDeltager);
 
-            return new ResponseEntity(new ApiRespons(true, "Prosjekt opprettet!"),
+            return new ResponseEntity(new ApiRespons(true, "Prosjekt deltager opprettet!"),
                     HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity(new ApiRespons(false, "Mislykkes!. " + e.getMessage()),
@@ -111,14 +111,14 @@ public class ProsjektDeltagerController {
 
     @PatchMapping("/oppdater/{id}")
     public ResponseEntity<?> oppdater(@PathVariable("id") Long id, @Valid @RequestBody ProsjektDeltagerRequest prosjektRequest) {
-        sjekkProsjektById(id);
+        sjekkId(id);
 
        ProsjektDeltager prosjekt = map(prosjektRequest);
 
         try {
             prosjektDeltagerRepository.save(prosjekt);
 
-            return new ResponseEntity(new ApiRespons(true, "Prosjekt Oppdatert!"),
+            return new ResponseEntity(new ApiRespons(true, "Prosjekt deltager Oppdatert!"),
                     HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity(new ApiRespons(false, "Mislykkes!. " + e.getMessage()),
@@ -128,12 +128,12 @@ public class ProsjektDeltagerController {
 
     @DeleteMapping("/slett/{id}")
     public ResponseEntity<?> slett(@Valid @RequestBody Long id) {
-        sjekkProsjektById(id);
+        sjekkId(id);
 
         try {
             prosjektDeltagerRepository.deleteById(id);
 
-            return new ResponseEntity(new ApiRespons(true, "Prosjekt slettet!"),
+            return new ResponseEntity(new ApiRespons(true, "Prosjekt deltager slettet!"),
                     HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity(new ApiRespons(false, "Mislykkes!. " + e.getMessage()),
@@ -141,7 +141,7 @@ public class ProsjektDeltagerController {
         }
     }
 
-    private ResponseEntity<?> sjekkProsjektById(Long id) {
+    private ResponseEntity<?> sjekkId(Long id) {
         if(!prosjektDeltagerRepository.existsById(id)) {
             return new ResponseEntity(new ApiRespons(false, "Prosjekt med finnes ikke!"),
                     HttpStatus.BAD_REQUEST);
