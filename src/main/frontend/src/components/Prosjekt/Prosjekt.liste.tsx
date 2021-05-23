@@ -136,7 +136,7 @@ const ProsjektListe: FC = () => {
                     onChange={haandterSok}
                   >
                     <option key="" value="">
-                      Velg status
+                      Alle
                     </option>
                     {EnumArray(ProsjektStatus).map((arr: any) => (
                       <option key={arr.value} value={arr.key}>
@@ -145,7 +145,7 @@ const ProsjektListe: FC = () => {
                     ))}
                   </Form.Control>
                   <Form.Text className="text-muted">
-                    Søk etter prosjekt status
+                    Søk etter prosjektstatus
                   </Form.Text>
                 </Col>
               </Form.Group>
@@ -159,9 +159,6 @@ const ProsjektListe: FC = () => {
                     name="sort"
                     onChange={haandterSok}
                   >
-                    <option key="" value="">
-                      Velg Sortering
-                    </option>
                     {EnumArray(ProsjektSorter).map((arr: any) => (
                       <option key={arr.key} value={arr.value}>
                         {arr.key}

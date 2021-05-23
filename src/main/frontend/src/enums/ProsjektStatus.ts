@@ -1,7 +1,7 @@
 enum ProsjektStatus {
+    Aktiv = "AKTIV", 
     Planlegging = "PLANNLEGGING", 
     Test = "TEST", 
-    Aktiv = "AKTIV", 
     Avsluttet = "AVSLUTTET"
 }
 

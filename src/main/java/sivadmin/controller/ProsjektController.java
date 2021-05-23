@@ -1,7 +1,6 @@
 package sivadmin.controller;
 
 import io.micrometer.core.annotation.Timed;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import sivadmin.exception.ResourceNotFoundException;
 import sivadmin.models.*;
 import sivadmin.payload.ApiRespons;
-import sivadmin.payload.Dto.ProsjektDto;
 import sivadmin.payload.Request.ProsjektRequest;
 import sivadmin.repository.ProsjektLederRepository;
 import sivadmin.repository.ProsjektRepository;
@@ -28,11 +26,16 @@ import java.util.*;
 @RequestMapping(value = "/api/prosjekter", produces = { MediaType.APPLICATION_JSON_VALUE })
 public class ProsjektController {
 
-    @Autowired
+    final
     ProsjektRepository prosjektRepository;
 
-    @Autowired
+    final
     ProsjektLederRepository prosjektLederRepository;
+
+    public ProsjektController(ProsjektRepository prosjektRepository, ProsjektLederRepository prosjektLederRepository) {
+        this.prosjektRepository = prosjektRepository;
+        this.prosjektLederRepository = prosjektLederRepository;
+    }
 
     @GetMapping("/liste")
     @Timed
@@ -48,7 +51,7 @@ public class ProsjektController {
     ) {
 
         try {
-            List<Prosjekt> prosjekter = new ArrayList<Prosjekt>();
+            List<Prosjekt> prosjekter;
 
             Pageable paging = PageRequest.of(side-1, visAntall, Sort.by(sort).ascending());
 
@@ -57,7 +60,7 @@ public class ProsjektController {
             }
 
             Page<Prosjekt> prosjektListe;
-            SokSpecification<Prosjekt> sokSpecification = new SokSpecification<Prosjekt>();
+            SokSpecification<Prosjekt> sokSpecification = new SokSpecification<>();
 
             if (!prosjektNavn.isEmpty())
                 sokSpecification.add(new SearchCriteria("prosjektNavn", prosjektNavn, SearchOperation.MATCH));
@@ -83,24 +86,20 @@ public class ProsjektController {
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/{id}")
     public Prosjekt hentProsjektEtterId(@PathVariable(value = "id") Long id) {
-        Prosjekt prosjekt = prosjektRepository.findById(id)
+        return prosjektRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Prosjekt", "navn", id));
-
-        return prosjekt;
     }
 
     @GetMapping("/sok/{prosjektNavn}")
     public Prosjekt hentProsjektEtterNavn(@PathVariable(value = "prosjektNavn") String prosjektNavn) {
-        Prosjekt prosjekt = prosjektRepository.findByProsjektNavn(prosjektNavn)
+      return prosjektRepository.findByProsjektNavn(prosjektNavn)
                 .orElseThrow(() -> new ResourceNotFoundException("Prosjekt", "navn", prosjektNavn));
-
-        return prosjekt;
     }
 
     @PostMapping("/opprett")
@@ -110,12 +109,17 @@ public class ProsjektController {
                     HttpStatus.BAD_REQUEST);
         }
 
-
         Prosjekt prosjekt = mapProsjekt(prosjektRequest);
-        Prosjekt result = prosjektRepository.save(prosjekt);
 
-        return new ResponseEntity(new ApiRespons(true, "Prosjekt opprettet!"),
-                HttpStatus.CREATED);
+        try {
+            prosjektRepository.save(prosjekt);
+
+            return new ResponseEntity(new ApiRespons(true, "Prosjekt opprettet!"),
+                    HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity(new ApiRespons(false, "Mislykkes!. " + e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PatchMapping("/oppdater/{id}")
@@ -123,19 +127,31 @@ public class ProsjektController {
         sjekkProsjektById(id);
 
         Prosjekt prosjekt = mapProsjekt(prosjektRequest);
-        Prosjekt result = prosjektRepository.save(prosjekt);
 
-        return new ResponseEntity(new ApiRespons(true, "Prosjekt oppdatert!"),
-                HttpStatus.OK);
+        try {
+            prosjektRepository.save(prosjekt);
+
+            return new ResponseEntity(new ApiRespons(true, "Prosjekt Oppdatert!"),
+                    HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(new ApiRespons(false, "Mislykkes!. " + e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/slett/{id}")
     public ResponseEntity<?> slett(@Valid @RequestBody Long id) {
         sjekkProsjektById(id);
-        prosjektRepository.deleteById(id);
 
-        return new ResponseEntity(new ApiRespons(true, "Prosjekt slettet!"),
-                HttpStatus.OK);
+        try {
+            prosjektRepository.deleteById(id);
+
+            return new ResponseEntity(new ApiRespons(true, "Prosjekt slettet!"),
+                    HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(new ApiRespons(false, "Mislykkes!. " + e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
     }
 
     private ResponseEntity<?> sjekkProsjektById(Long id) {
@@ -148,20 +164,7 @@ public class ProsjektController {
     }
 
     private Prosjekt mapProsjekt(ProsjektRequest prosjektRequest) {
-        Prosjekt prosjekt = new Prosjekt(prosjektRequest.getProsjektNavn(),
-                prosjektRequest.getProduktNummer(),
-                prosjektRequest.getAargang(),
-                prosjektRequest.getRegisterNummer(),
-                prosjektRequest.getProsjektStatus(),
-                prosjektRequest.getModus(),
-                prosjektRequest.getFinansiering(),
-                prosjektRequest.getProsentStat(),
-                prosjektRequest.getProsentMarked(),
-                prosjektRequest.getPanel(),
-                prosjektRequest.getOppstartDato(),
-                prosjektRequest.getAvslutningsDato(),
-                prosjektRequest.getKommentar()
-        );
+        Prosjekt prosjekt = new Prosjekt(prosjektRequest);
 
         if(prosjektRequest.getProsjektLeder_id() != 0 && prosjektRequest.getProsjektLeder_id() != null) {
             ProsjektLeder prosjektLeder = prosjektLederRepository.getOne(prosjektRequest.getProsjektLeder_id());

@@ -20,7 +20,6 @@ import sivadmin.specifications.SearchOperation;
 import sivadmin.specifications.SokSpecification;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +46,7 @@ public class SkjemaController {
     ) {
 
         try {
-            List<Skjema> skjemaer = new ArrayList<Skjema>();
+            List<Skjema> skjemaer;
 
             Pageable paging = PageRequest.of(side-1, visAntall, Sort.by(sort).ascending());
 
@@ -56,7 +55,7 @@ public class SkjemaController {
             }
 
             Page<Skjema> skjemaListe;
-            SokSpecification<Skjema> sokSpecification = new SokSpecification<Skjema>();
+            SokSpecification<Skjema> sokSpecification = new SokSpecification<>();
 
             if (!skjemaNavn.isEmpty())
                 sokSpecification.add(new SearchCriteria("skjemaNavn", skjemaNavn, SearchOperation.MATCH));
@@ -85,24 +84,20 @@ public class SkjemaController {
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/{id}")
     public Skjema hentSkjemaEtterId(@PathVariable(value = "id") Long id) {
-        Skjema skjema = skjemaRepository.findById(id)
+        return skjemaRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Skjema", "navn", id));
-
-        return skjema;
     }
 
     @GetMapping("/sok/{skjemaNavn}")
     public Skjema hentSkjemaEtterNavn(@PathVariable(value = "skjemaNavn") String skjemaNavn) {
-        Skjema skjema = skjemaRepository.findBySkjemaNavn(skjemaNavn)
+        return skjemaRepository.findBySkjemaNavn(skjemaNavn)
                 .orElseThrow(() -> new ResourceNotFoundException("Skjema", "navn", skjemaNavn));
-
-        return skjema;
     }
 
     @PostMapping("/opprett")
@@ -112,12 +107,17 @@ public class SkjemaController {
                     HttpStatus.BAD_REQUEST);
         }
 
-
         Skjema skjema = mapSkjema(skjemaRequest);
-        Skjema result = skjemaRepository.save(skjema);
 
-        return new ResponseEntity(new ApiRespons(true, "Skjema opprettet!"),
-                HttpStatus.CREATED);
+        try {
+            skjemaRepository.save(skjema);
+
+            return new ResponseEntity(new ApiRespons(true, "Skjema opprettet!"),
+                    HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity(new ApiRespons(false, "Mislykkes!. " + e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PatchMapping("/oppdater/{id}")
@@ -125,19 +125,31 @@ public class SkjemaController {
         sjekkSkjemaById(id);
 
         Skjema skjema = mapSkjema(skjemaRequest);
-        Skjema result = skjemaRepository.save(skjema);
 
-        return new ResponseEntity(new ApiRespons(true, "Skjema oppdatert!"),
-                HttpStatus.OK);
+        try {
+            skjemaRepository.save(skjema);
+
+            return new ResponseEntity(new ApiRespons(true, "Skjema oppdatert!"),
+                    HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity(new ApiRespons(false, "Mislykkes!. " + e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/slett/{id}")
     public ResponseEntity<?> slett(@Valid @RequestBody Long id) {
         sjekkSkjemaById(id);
-        skjemaRepository.deleteById(id);
 
-        return new ResponseEntity(new ApiRespons(true, "Skjema slettet!"),
-                HttpStatus.OK);
+        try {
+            skjemaRepository.deleteById(id);
+
+            return new ResponseEntity(new ApiRespons(true, "Skjema slettet!"),
+                    HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity(new ApiRespons(false, "Mislykkes!. " + e.getMessage()),
+                    HttpStatus.BAD_REQUEST);
+        }
     }
 
     private ResponseEntity<?> sjekkSkjemaById(Long id) {

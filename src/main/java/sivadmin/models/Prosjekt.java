@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import sivadmin.models.audit.DateAudit;
+import sivadmin.payload.Request.ProsjektRequest;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -51,19 +52,26 @@ public class Prosjekt extends DateAudit {
             mappedBy = "prosjekt")
     private Set<Skjema> skjemaer = new HashSet<>();
 
-    public Prosjekt(@NotBlank @Size(max = 200) String prosjektNavn, @NotBlank @Size(max = 7) String produktNummer, String aargang, String registerNummer, String prosjektStatus, String modus, String finansiering, Long prosentStat, Long prosentMarked, Boolean panel, Date oppstartDato, Date avslutningsDato, String kommentar) {
-        this.prosjektNavn = prosjektNavn;
-        this.produktNummer = produktNummer;
-        this.aargang = aargang;
-        this.registerNummer = registerNummer;
-        this.prosjektStatus = prosjektStatus;
-        this.modus = modus;
-        this.finansiering = finansiering;
-        this.prosentStat = prosentStat;
-        this.prosentMarked = prosentMarked;
-        this.panel = panel;
-        this.oppstartDato = oppstartDato;
-        this.avslutningsDato = avslutningsDato;
-        this.kommentar = kommentar;
+    @ToString.Exclude
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "prosjekt")
+    private Set<ProsjektDeltager> prosjektDeltagere = new HashSet<>();
+
+    public Prosjekt(ProsjektRequest prosjektRequest) {
+        this.prosjektNavn = prosjektRequest.getProsjektNavn();
+        this.produktNummer = prosjektRequest.getProduktNummer();
+        this.aargang = prosjektRequest.getAargang();
+        this.registerNummer = prosjektRequest.getRegisterNummer();
+        this.prosjektStatus = prosjektRequest.getProsjektStatus();
+        this.modus = prosjektRequest.getModus();
+        this.finansiering = prosjektRequest.getFinansiering();
+        this.prosentStat = prosjektRequest.getProsentStat();
+        this.prosentMarked = prosjektRequest.getProsentMarked();
+        this.panel = prosjektRequest.getPanel();
+        this.oppstartDato = prosjektRequest.getOppstartDato();
+        this.avslutningsDato = prosjektRequest.getAvslutningsDato();
+        this.kommentar = prosjektRequest.getKommentar();
     }
 }

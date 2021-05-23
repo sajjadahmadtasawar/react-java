@@ -120,7 +120,7 @@ const SkjemaListe: FC = () => {
                     value={sok.skjemaKortNavn}
                     name="skjemaKortNavn"
                     onChange={haandterSok}
-                    placeholder="Årgang"
+                    placeholder="Skjemakortnavn"
                   />
                   <Form.Text className="text-muted">
                     Søk etter Skjema Kort Navn
@@ -138,7 +138,7 @@ const SkjemaListe: FC = () => {
                     onChange={haandterSok}
                   >
                     <option key="" value="">
-                      Velg Undersøkelse type
+                      Alle
                     </option>
                     {EnumArray(UndersokelseType).map((arr: any) => (
                       <option key={arr.value} value={arr.key}>
@@ -147,7 +147,7 @@ const SkjemaListe: FC = () => {
                     ))}
                   </Form.Control>
                   <Form.Text className="text-muted">
-                    Søk etter Undersøkelse type
+                    Søk etter Undersøkelsetype
                   </Form.Text>
                 </Col>
               </Form.Group>
@@ -161,9 +161,6 @@ const SkjemaListe: FC = () => {
                     name="sort"
                     onChange={haandterSok}
                   >
-                    <option key="" value="">
-                      Velg Sortering
-                    </option>
                     {EnumArray(SkjemaSorter).map((arr: any) => (
                       <option key={arr.key} value={arr.value}>
                         {arr.key}
