@@ -60,6 +60,7 @@ const App: FC = () => {
                     path="/skjemaer/endre/:id"
                     component={SkjemaEndre}
                   />
+                  <Route exact path="/utvalg" component={SkjemaListe} />
                 </Switch>
               </div>
             </main>

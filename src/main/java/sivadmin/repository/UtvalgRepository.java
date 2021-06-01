@@ -6,15 +6,14 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
-import sivadmin.models.Prosjekt;
+import sivadmin.models.Skjema;
+import sivadmin.models.Utvalg;
 
 import java.util.Optional;
 
 @Repository
-public interface ProsjektRepository extends JpaRepository<Prosjekt, Long>,
-        JpaSpecificationExecutor<Prosjekt> {
-    Page<Prosjekt> findAll(Specification<Prosjekt> spec, Pageable pageable);
-    boolean existsProsjektByProsjektNavn(String prosjektNavn);
-    Optional<Prosjekt> findByProsjektNavn(String prosjektNavn);
-    Prosjekt findFirstByOrderByIdAsc();
+public interface UtvalgRepository extends JpaRepository<Utvalg, Long>,
+        JpaSpecificationExecutor<Utvalg> {
+    Page<Utvalg> findAll(Specification<Utvalg> spec, Pageable pageable);
+    Optional<Utvalg> findUtvalgBySkjema(Skjema skjema);
 }

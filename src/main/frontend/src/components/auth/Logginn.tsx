@@ -25,6 +25,7 @@ const Logginn: FC = () => {
   useEffect(() => {
     inputRef.current.focus();
     localStorage.removeItem("bruker");
+    localStorage.removeItem("token");
   }, []);
 
   const handleBrukernavn = (e: BaseSyntheticEvent) => {
@@ -43,7 +44,7 @@ const Logginn: FC = () => {
     const requestOptions: AxiosRequestConfig = {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
 
       data: { brukernavn: brukernavn, passord: passord },
@@ -53,24 +54,23 @@ const Logginn: FC = () => {
       setValidated(false);
     } else {
       try {
-        await axios(`${API_URL}/auth/logginn/`, requestOptions).then(
-          (res) => {
-            if (res.status === 200) {
-              localStorage.token = res.data.accessToken;
-
-              window.location.href = "/";
-            } else {
-              setValidated(false);
-              setErrorMessage(
-                "Brukernavn eller passord er ikke riktig, Vennligst prøve igjen."
-              );
-              inputRef.current.focus();
-            }
+        await axios(`${API_URL}/auth/logginn/`, requestOptions).then((res) => {
+          if (res.status === 200) {
+            localStorage.token = res.data.accessToken;
+            window.location.href = "/";
+          } else {
+            setValidated(false);
+            setErrorMessage(
+              "Brukernavn eller passord er ikke riktig, Vennligst prøve igjen."
+            );
+            inputRef.current.focus();
           }
-        );
+        });
       } catch (error) {
         setValidated(false);
-        setErrorMessage("Brukernavn eller passord er ikke riktig, Vennligst prøve igjen.");
+        setErrorMessage(
+          "Brukernavn eller passord er ikke riktig, Vennligst prøve igjen."
+        );
         inputRef.current.focus();
       }
     }
@@ -97,7 +97,7 @@ const Logginn: FC = () => {
                   <Form.Group as={Row} controlId="brukernavn">
                     <Form.Label column sm={3}>
                       Brukernavn
-                      </Form.Label>
+                    </Form.Label>
                     <Col sm={8}>
                       <Form.Control
                         type="text"
@@ -110,13 +110,13 @@ const Logginn: FC = () => {
                       />
                       <Form.Control.Feedback type="invalid">
                         Brukernavn er påkrevd.
-                        </Form.Control.Feedback>
+                      </Form.Control.Feedback>
                     </Col>
                   </Form.Group>
                   <Form.Group as={Row} controlId="passord">
                     <Form.Label column sm={3}>
                       Passord
-                      </Form.Label>
+                    </Form.Label>
                     <Col sm={8}>
                       <Form.Control
                         type="password"
@@ -128,17 +128,17 @@ const Logginn: FC = () => {
                       />
                       <Form.Control.Feedback type="invalid">
                         Passord er påkrevd.
-                        </Form.Control.Feedback>
+                      </Form.Control.Feedback>
                     </Col>
                   </Form.Group>
                 </Card.Body>
                 <Card.Footer>
                   <Button type="submit" className="btn-primary mr-2">
                     Logg inn
-                    </Button>
+                  </Button>
                   <Button type="button" className="btn-info">
                     Glemt passord ?
-                    </Button>
+                  </Button>
                 </Card.Footer>
               </Card>
             </Form>

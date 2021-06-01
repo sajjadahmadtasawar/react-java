@@ -4,6 +4,8 @@ import { useLocation } from "react-router-dom";
 import {
   BsBriefcase,
   BsBriefcaseFill,
+  BsFillCollectionFill,
+  BsFillCollectionPlayFill,
   BsFillInboxesFill,
   BsFillInboxFill,
 } from "react-icons/bs";
@@ -69,6 +71,23 @@ const Sidebar: FC = () => {
                 )}
               </div>
               Skjema
+            </Link>
+            <Link
+              className={
+                location.pathname.includes("utvalg")
+                  ? "nav-link active"
+                  : "nav-link"
+              }
+              to={`/utvalg`}
+            >
+              <div className="sb-nav-link-icon">
+                {location.pathname.includes("utvalg") ? (
+                  <BsFillCollectionPlayFill />
+                ) : (
+                  <BsFillCollectionFill />
+                )}
+              </div>
+              Utvalg
             </Link>
             <div className="sb-sidenav-menu-heading">Administrasjon</div>
             <div className="sb-sidenav-menu-heading">Intervjuer</div>

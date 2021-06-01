@@ -12,7 +12,7 @@ import java.util.List;
 
 @RepositoryRestResource(collectionResourceRel = "prosjekt_deltagere", path = "prosjekt_deltagere")
 public interface ProsjektDeltagerRepository extends JpaRepository<ProsjektDeltager, Long> {
-    List<ProsjektDeltager> findByNavn(@Param("navn") String navn);
+    List<ProsjektDeltager> findByDeltagerNavnLike(@Param("navn") String navn);
     ProsjektDeltager findFirstByOrderByIdAsc();
     Page<ProsjektDeltager> findAll(Specification<ProsjektDeltager> spec, Pageable pageable);
 }

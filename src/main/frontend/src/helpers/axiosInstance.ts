@@ -22,11 +22,11 @@ const axiosInstance =  (history: any = null) => {
         resolve(response);
       }),
     (error) => {
-     
+
       if(error.response.status === 401) {
-        history.push('/logginn')
-        return Promise.reject(error);
+        window.location.href = "logginn";
       }
+
       return Promise.reject(error.response.data);
 
     }
