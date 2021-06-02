@@ -1,7 +1,7 @@
 import { BaseSyntheticEvent, FC, FormEvent, useState } from "react";
 
 import { Button, Card, Col, Form, InputGroup, Row } from "react-bootstrap";
-import ISkjema from "models/Skjema/ISkjema";
+import ISkjema from "components/Skjema/models/ISkjema";
 import { Link } from "react-router-dom";
 import { aarene, EnumArray } from "helpers/utils";
 import moment from "moment";
@@ -34,9 +34,8 @@ const SkjemaSkjema: FC<Parametere> = ({
                   type="text"
                   value={skjema.skjemaNavn}
                   onChange={haandterEndring}
-                  placeholder="Skriv skjemanavn (minst 5 tegn)"
+                  placeholder="Skriv skjemanavn"
                   required
-                  minLength={5}
                 />
 
                 <Form.Control.Feedback type="invalid" className="text-muted">
@@ -44,6 +43,26 @@ const SkjemaSkjema: FC<Parametere> = ({
                 </Form.Control.Feedback>
               </Col>
             </Form.Group>
+
+            <Form.Group as={Row} controlId="skjemaKortNavn">
+              <Form.Label column sm="2">
+                Kortnavn
+              </Form.Label>
+              <Col sm="4">
+                <Form.Control
+                  type="text"
+                  value={skjema.skjemaKortNavn}
+                  onChange={haandterEndring}
+                  placeholder="Skriv skjema kortnavn"
+                  required
+                />
+
+                <Form.Control.Feedback type="invalid" className="text-muted">
+                  Skjema kortnavn er påkrevd !
+                </Form.Control.Feedback>
+              </Col>
+            </Form.Group>
+
             <Form.Group as={Row} controlId="delProduktNummer">
               <Form.Label column sm="2">
                 DelProduktnummer

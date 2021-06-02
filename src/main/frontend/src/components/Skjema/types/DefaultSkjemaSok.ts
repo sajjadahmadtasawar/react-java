@@ -1,4 +1,4 @@
-import ISkjemaSok from "models/Skjema/ISkjemaSok";
+import ISkjemaSok from "components/Skjema/models/ISkjemaSok";
 
 const DefaultSkjemaSok: ISkjemaSok = {
     skjemaNavn: '',

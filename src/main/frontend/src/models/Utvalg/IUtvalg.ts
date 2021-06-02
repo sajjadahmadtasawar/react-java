@@ -1,4 +1,4 @@
-import ISkjema from "models/Skjema/ISkjema";
+import ISkjema from "components/Skjema/models/ISkjema";
 
 export default interface IUtvalg {
   id?: number;

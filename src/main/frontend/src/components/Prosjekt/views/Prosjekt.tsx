@@ -1,14 +1,14 @@
 import React, { BaseSyntheticEvent, FC, Fragment, useState } from "react";
 import { Accordion, Button, Card, Col, Form, Row } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
-import "./Prosjekt.css";
+import "../styles/Prosjekt.css";
 import { Delete } from "context/hooks/crud";
 import { toast } from "react-toastify";
 import { erAdmin } from "helpers/utils";
-import Bekreftelse from "../Felles/Bekreftelse";
-import IProsjekt from "models/Prosjekt/IProsjekt";
+import Bekreftelse from "../../Felles/Bekreftelse";
+import IProsjekt from "components/Prosjekt/models/IProsjekt";
 import moment from "moment";
-import DefaultProsjekt from "types/DefaultProsjekt";
+import DefaultProsjekt from "components/Prosjekt/types/DefaultProsjekt";
 
 interface ExternalProps {
   objekt: IProsjekt;

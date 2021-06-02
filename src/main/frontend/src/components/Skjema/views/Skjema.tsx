@@ -1,14 +1,14 @@
 import React, { BaseSyntheticEvent, FC, Fragment, useState } from "react";
 import { Accordion, Button, Card, Col, Form, Row } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
-import "./Skjema.css";
+import "../styles/Skjema.css";
 import { Delete } from "context/hooks/crud";
 import { toast } from "react-toastify";
 import { erAdmin } from "helpers/utils";
-import Bekreftelse from "../Felles/Bekreftelse";
-import ISkjema from "models/Skjema/ISkjema";
+import Bekreftelse from "../../Felles/Bekreftelse";
+import ISkjema from "components/Skjema/models/ISkjema";
 import moment from "moment";
-import DefaultSkjema from "types/DefaultSkjema";
+import DefaultSkjema from "components/Skjema/types/DefaultSkjema";
 
 interface ExternalProps {
   objekt: ISkjema;

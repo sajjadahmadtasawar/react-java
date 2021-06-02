@@ -1,4 +1,4 @@
-import IProsjekt from "models/Prosjekt/IProsjekt";
+import IProsjekt from "components/Prosjekt/models/IProsjekt";
 
 export default interface ISkjema {
     id?: number;

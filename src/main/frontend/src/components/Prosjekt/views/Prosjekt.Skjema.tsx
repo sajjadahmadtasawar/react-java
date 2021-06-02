@@ -1,12 +1,12 @@
 import { BaseSyntheticEvent, FC, FormEvent, useState } from "react";
 
 import { Button, Card, Col, Form, InputGroup, Row } from "react-bootstrap";
-import IProsjekt from "models/Prosjekt/IProsjekt";
+import IProsjekt from "components/Prosjekt/models/IProsjekt";
 import { Link } from "react-router-dom";
 import { aarene, EnumArray } from "helpers/utils";
-import ProsjektModus from "enums/ProsjektModus";
-import ProsjektFinansiering from "enums/ProsjektFinansiering";
-import ProsjektStatus from "enums/ProsjektStatus";
+import ProsjektModus from "components/Prosjekt/enums/ProsjektModus";
+import ProsjektFinansiering from "components/Prosjekt/enums/ProsjektFinansiering";
+import ProsjektStatus from "components/Prosjekt/enums/ProsjektStatus";
 import IProsjektLeder from "models/ProsjektLeder/IProsjektLeder";
 import IProsjektLederSok from "models/ProsjektLeder/IProsjektLederSok";
 import useProsjektLedereSok from "context/hooks/ProsjektLeder/useProsjektLedere";

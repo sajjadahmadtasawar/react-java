@@ -4,9 +4,9 @@ import { Link, useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosInstance from "helpers/axiosInstance";
 import ProsjektSkjema from "./Prosjekt.Skjema";
-import IProsjekt from "models/Prosjekt/IProsjekt";
+import IProsjekt from "components/Prosjekt/models/IProsjekt";
 import { useQuery } from "react-query";
-import DefaultProsjekt from "types/DefaultProsjekt";
+import DefaultProsjekt from "components/Prosjekt/types/DefaultProsjekt";
 
 interface RouteParams {
   id: string;

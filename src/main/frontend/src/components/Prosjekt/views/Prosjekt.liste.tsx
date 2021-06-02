@@ -10,22 +10,23 @@ import {
   ToggleButton,
   ToggleButtonGroup,
 } from "react-bootstrap";
-import IUtvalg from "models/Utvalg/IUtvalg";
-import Utvalg from "./Utvalg";
-import { EnumArray } from "helpers/utils";
-import useUtvalger from "context/hooks/Utvalg/useUtvalger";
-import IUtvalgSok from "models/Utvalg/IUtvalgSok";
+import IProsjekt from "components/Prosjekt/models/IProsjekt";
+import Prosjekt from "./Prosjekt";
+import ProsjektStatus from "components/Prosjekt/enums/ProsjektStatus";
+import { EnumArray, ToArray } from "helpers/utils";
+import useProsjekter from "components/Prosjekt/hooks/useProsjekter";
 import PaginationControll from "components/Felles/PaginationControll";
+import ProsjektSorter from "components/Prosjekt/enums/ProsjektSorter";
 import { BiSortDown, BiSortUp } from "react-icons/bi";
-import DefaultUtvalgSok from "types/DefaultUtvalgSok";
-import UtvalgSorter from "enums/UtvalgSorter";
+import DefaultProsjektSok from "components/Prosjekt/types/DefaultProsjektSok";
+import IProsjektSok from "../models/IProsjektSok";
 
-const UtvalgListe: FC = () => {
-  const [sok, setSok] = useState<IUtvalgSok>(DefaultUtvalgSok);
+const ProsjektListe: FC = () => {
+  const [sok, setSok] = useState<IProsjektSok>(DefaultProsjektSok);
   const [sort, setSort] = useState(1);
 
   const history = useHistory();
-  const { data, isFetching, refetch } = useUtvalger(sok);
+  const { data, isFetching, refetch } = useProsjekter(sok);
 
   const haandterSok = (e: BaseSyntheticEvent) => {
     const name = e.currentTarget.name as string;
@@ -43,7 +44,7 @@ const UtvalgListe: FC = () => {
   };
 
   const finnesData: boolean =
-    data && data.utvalger && data.utvalger.length > 0 ? true : false;
+    data && data.prosjekter && data.prosjekter.length > 0 ? true : false;
 
   const setSide = (e: BaseSyntheticEvent) => {
     const side = e.target.getAttribute("data-text");
@@ -54,7 +55,7 @@ const UtvalgListe: FC = () => {
   };
 
   const opprett = () => {
-    history.push("/utvalger/opprett");
+    history.push("/prosjekter/opprett");
   };
 
   return (
@@ -65,7 +66,7 @@ const UtvalgListe: FC = () => {
             <Col sm="10">
               <div className="mt-1">
                 <span className="font-weight-bolder text-uppercase">
-                  Utvalgsøk
+                  Prosjektsøk
                 </span>
               </div>
             </Col>
@@ -74,24 +75,78 @@ const UtvalgListe: FC = () => {
                 onClick={opprett}
                 className="btn btn-sm mb-0 ml-auto mr-0 btn-secondary"
               >
-                Nytt utvalg
+                Nytt prosjekt
               </Button>
             </Col>
           </Row>
         </Card.Header>
         <Card.Body>
           <Row className="mx-0">
-            <Col sm="3">
-              <Form.Group as={Row} controlId="skjemaKortNavn">
+            <Col sm="2" className="filter_col">
+              <Form.Group as={Row} controlId="produktNummer">
                 <Col>
                   <Form.Control
                     type="text"
-                    value={sok.skjemaKortNavn}
-                    name="skjemaKortNavn"
+                    value={sok.produktNummer}
+                    name="produktNummer"
                     onChange={haandterSok}
-                    placeholder="skjema"
+                    placeholder="Produktnummer"
                   />
-                  <Form.Text className="text-muted">Søk etter skjema</Form.Text>
+                  <Form.Text className="text-muted">
+                    Søk etter produktnummer
+                  </Form.Text>
+                </Col>
+              </Form.Group>
+            </Col>
+            <Col sm="3">
+              <Form.Group as={Row} controlId="prosjektNavn">
+                <Col>
+                  <Form.Control
+                    type="text"
+                    value={sok.prosjektNavn}
+                    name="prosjektNavn"
+                    onChange={haandterSok}
+                    placeholder="Prosjektnavn"
+                  />
+                  <Form.Text className="text-muted">Søk etter navn</Form.Text>
+                </Col>
+              </Form.Group>
+            </Col>
+            <Col sm="2">
+              <Form.Group as={Row} controlId="aargang">
+                <Col>
+                  <Form.Control
+                    type="text"
+                    value={sok.aargang}
+                    name="aargang"
+                    onChange={haandterSok}
+                    placeholder="Årgang"
+                  />
+                  <Form.Text className="text-muted">Søk etter Årgang</Form.Text>
+                </Col>
+              </Form.Group>
+            </Col>
+            <Col sm="2">
+              <Form.Group as={Row} controlId="aargang">
+                <Col>
+                  <Form.Control
+                    as="select"
+                    value={sok.prosjektStatus}
+                    name="prosjektStatus"
+                    onChange={haandterSok}
+                  >
+                    <option key="" value="">
+                      Alle
+                    </option>
+                    {EnumArray(ProsjektStatus).map((arr: any) => (
+                      <option key={arr.value} value={arr.key}>
+                        {arr.key}
+                      </option>
+                    ))}
+                  </Form.Control>
+                  <Form.Text className="text-muted">
+                    Søk etter prosjektstatus
+                  </Form.Text>
                 </Col>
               </Form.Group>
             </Col>
@@ -104,14 +159,14 @@ const UtvalgListe: FC = () => {
                     name="sort"
                     onChange={haandterSok}
                   >
-                    {EnumArray(UtvalgSorter).map((arr: any) => (
+                    {EnumArray(ProsjektSorter).map((arr: any) => (
                       <option key={arr.key} value={arr.value}>
                         {arr.key}
                       </option>
                     ))}
                   </Form.Control>
                   <Form.Text className="text-muted">
-                    Sorter utvalgliste
+                    Sorter prosjektliste
                   </Form.Text>
                 </Col>
               </Form.Group>
@@ -141,7 +196,7 @@ const UtvalgListe: FC = () => {
           <Row className="mb-0 d-flex">
             <Col sm="6" className="mt-1 align-self-start">
               <span className="font-weight-bolder text-uppercase">
-                Utvalgliste {finnesData && `(${data?.antall})`}
+                Prosjektliste {finnesData && `(${data?.antall})`}
               </span>
             </Col>
 
@@ -166,16 +221,16 @@ const UtvalgListe: FC = () => {
             <span className="sr-only">Laster...</span>
           </Spinner>
           {data &&
-            data.utvalger &&
-            data.utvalger.length > 0 &&
-            data.utvalger.map((utvalg: IUtvalg, index: number) => (
-              <Utvalg
+            data.prosjekter &&
+            data.prosjekter.length > 0 &&
+            data.prosjekter.map((prosjekt: IProsjekt, index: number) => (
+              <Prosjekt
                 key={index}
                 refetch={refetch}
-                objekt={utvalg}
-                objektNavn="utvalg"
-                apiURL="utvalger"
-                routeURL="utvalger"
+                objekt={prosjekt}
+                objektNavn="prosjekt"
+                apiURL="prosjekter"
+                routeURL="prosjekter"
               />
             ))}
         </Card.Body>
@@ -184,4 +239,4 @@ const UtvalgListe: FC = () => {
   );
 };
 
-export default UtvalgListe;
+export default ProsjektListe;

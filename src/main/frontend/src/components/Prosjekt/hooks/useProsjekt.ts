@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import axiosInstance from "helpers/axiosInstance";
-import IProsjekt from "models/Prosjekt/IProsjekt";
+import IProsjekt from "components/Prosjekt/models/IProsjekt";
 
 const hentProsjekt = async (id: Number, history: any = null) => {
     const { data: prosjekt } = await axiosInstance(history).get(`/api/prosjekter/${id}`);

@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import axiosInstance from "helpers/axiosInstance";
-import ISkjema from "models/Skjema/ISkjema";
+import ISkjema from "components/Skjema/models/ISkjema";
 
 const hentSkjema = async (id: Number, history: any = null) => {
     const { data: skjema } = await axiosInstance(history).get(`/api/skjemaer/${id}`);

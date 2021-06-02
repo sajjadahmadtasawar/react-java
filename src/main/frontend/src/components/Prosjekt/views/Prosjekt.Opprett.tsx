@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosInstance from "helpers/axiosInstance";
 import ProsjektSkjema from "./Prosjekt.Skjema";
-import DefaultProsjekt from "types/DefaultProsjekt";
+import DefaultProsjekt from "components/Prosjekt/types/DefaultProsjekt";
 
 const ProsjektOpprett: FC = () => {
   const [prosjekt, setProsjekt] = useState(DefaultProsjekt);

@@ -1,5 +1,5 @@
 import IProsjektLeder from "models/ProsjektLeder/IProsjektLeder";
-import ISkjema from "models/Skjema/ISkjema";
+import ISkjema from "components/Skjema/models/ISkjema";
 
 export default interface IProsjekt {
     id?: number;

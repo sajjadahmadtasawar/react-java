@@ -1,9 +1,9 @@
-import ProsjektFinansiering from "enums/ProsjektFinansiering";
-import ProsjektModus from "enums/ProsjektModus";
-import ProsjektStatus from "enums/ProsjektStatus";
+import ProsjektFinansiering from "components/Prosjekt/enums/ProsjektFinansiering";
+import ProsjektModus from "components/Prosjekt/enums/ProsjektModus";
+import ProsjektStatus from "components/Prosjekt/enums/ProsjektStatus";
 import { aarene } from "helpers/utils";
-import DefaultProsjektLeder from "./DefaultProsjektLeder";
-import IProsjekt from "models/Prosjekt/IProsjekt";
+import DefaultProsjektLeder from "../../../types/DefaultProsjektLeder";
+import IProsjekt from "components/Prosjekt/models/IProsjekt";
 
 const DefaultProsjekt: IProsjekt = {
     prosjektNavn: '',

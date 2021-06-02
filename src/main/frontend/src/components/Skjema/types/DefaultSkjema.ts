@@ -1,5 +1,5 @@
-import ISkjema from "models/Skjema/ISkjema";
-import DefaultProsjekt from "./DefaultProsjekt";
+import ISkjema from "components/Skjema/models/ISkjema";
+import DefaultProsjekt from "../../Prosjekt/types/DefaultProsjekt";
 
 const DefaultSkjema: ISkjema = {
     skjemaNavn: '',

@@ -10,12 +10,12 @@ import Sidebar from "components/Layout/Sidebar";
 import Dashbaord from "components/Layout/Dashboard";
 import NavbarLayout from "components/Layout/NavbarLayout";
 import Logginn from "components/Auth/Logginn";
-import ProsjektListe from "components/Prosjekt/Prosjekt.liste";
-import ProsjektOpprett from "components/Prosjekt/Prosjekt.Opprett";
-import ProsjektEndre from "components/Prosjekt/Prosjekt.Endre";
-import SkjemaListe from "components/Skjema/Skjema.liste";
-import SkjemaOpprett from "components/Skjema/Skjema.Opprett";
-import SkjemaEndre from "components/Skjema/Skjema.Endre";
+import ProsjektListe from "components/Prosjekt/views/Prosjekt.liste";
+import ProsjektOpprett from "components/Prosjekt/views/Prosjekt.Opprett";
+import ProsjektEndre from "components/Prosjekt/views/Prosjekt.Endre";
+import SkjemaListe from "components/Skjema/views/Skjema.liste";
+import SkjemaOpprett from "components/Skjema/views/Skjema.Opprett";
+import SkjemaEndre from "components/Skjema/views/Skjema.Endre";
 
 const queryClient = new QueryClient({
   defaultOptions: {

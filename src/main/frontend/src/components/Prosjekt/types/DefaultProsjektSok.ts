@@ -1,4 +1,4 @@
-import IProsjektSok from "models/Prosjekt/IProsjektSok";
+import IProsjektSok from "../models/IProsjektSok";
 
 const DefaultProsjektSok: IProsjektSok = {
     prosjektNavn: '',

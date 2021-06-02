@@ -3,28 +3,28 @@ import React, { BaseSyntheticEvent, FC, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosInstance from "helpers/axiosInstance";
-import UtvalgSkjema from "./Utvalg.Skjema";
-import DefaultUtvalg from "types/DefaultUtvalg";
+import SkjemaSkjema from "./Skjema.Skjema";
+import DefaultSkjema from "components/Skjema/types/DefaultSkjema";
 
-const UtvalgOpprett: FC = () => {
-  const [utvalg, setUtvalg] = useState(DefaultUtvalg);
+const SkjemaOpprett: FC = () => {
+  const [skjema, setSkjema] = useState(DefaultSkjema);
   const [validert, setValidert] = useState(false);
 
   const history = useHistory();
 
   const haandterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    const utvalg = e.currentTarget;
+    const skjema = e.currentTarget;
     e.preventDefault();
     e.stopPropagation();
 
-    if (utvalg.checkValidity() === false) {
+    if (skjema.checkValidity() === false) {
       setValidert(false);
     } else {
       try {
         await axiosInstance(history)
-          .post(`/utvalger/opprett`, utvalg)
-          .then(() => history.push("/utvalger"))
-          .then(() => toast.success("Utvalg opprettet !"));
+          .post(`/skjemaer/opprett`, skjema)
+          .then(() => history.push("/skjemaer"))
+          .then(() => toast.success("Skjema opprettet !"));
       } catch (error) {
         toast.error(`${error.message}`);
       }
@@ -40,20 +40,20 @@ const UtvalgOpprett: FC = () => {
       vurdi = vurdi.slice(0, 5);
     }
 
-    setUtvalg({ ...utvalg, [felt_navn]: vurdi });
+    setSkjema({ ...skjema, [felt_navn]: vurdi });
   };
 
   return (
     <>
       <ol className="breadcrumb mb-4 mt-3">
         <li className="breadcrumb-item">
-          <Link to="/utvalger">Utvalger</Link>
+          <Link to="/skjemaer">Skjemaer</Link>
         </li>
-        <li className="breadcrumb-item active">Opprett nytt Utvalg</li>
+        <li className="breadcrumb-item active">Opprett nytt Skjema</li>
       </ol>
 
-      <UtvalgSkjema
-        utvalg={utvalg}
+      <SkjemaSkjema
+        skjema={skjema}
         validert={validert}
         haandterEndring={(event) => haandterEndring(event)}
         haandterSubmit={(event) => haandterSubmit(event)}
@@ -62,4 +62,4 @@ const UtvalgOpprett: FC = () => {
   );
 };
 
-export default UtvalgOpprett;
+export default SkjemaOpprett;
