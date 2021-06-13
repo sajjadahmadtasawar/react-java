@@ -15,7 +15,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "statusHistorikk")
+@Table(name = "status_historikk")
 public class StatHist extends DateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

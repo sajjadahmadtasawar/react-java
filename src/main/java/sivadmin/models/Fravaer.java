@@ -18,7 +18,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "fravaer")
+@Table(name = "fravaerer")
 public class Fravaer extends DateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

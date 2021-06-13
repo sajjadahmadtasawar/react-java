@@ -1,7 +1,7 @@
 import React, { BaseSyntheticEvent, FC, Fragment, useState } from "react";
 import { Accordion, Button, Card, Col, Form, Row } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
-import "../styles/Prosjekt.css";
+import "../styles/Styles.css";
 import { Delete } from "context/hooks/crud";
 import { toast } from "react-toastify";
 import { erAdmin } from "helpers/utils";
@@ -9,6 +9,10 @@ import Bekreftelse from "../../Felles/Bekreftelse";
 import IProsjekt from "components/Prosjekt/models/IProsjekt";
 import moment from "moment";
 import DefaultProsjekt from "components/Prosjekt/types/DefaultProsjekt";
+import DefaultSkjemaSok from "components/Skjema/types/DefaultSkjemaSok";
+import ISkjemaSok from "components/Skjema/models/ISkjemaSok";
+import useSkjemaer from "components/Skjema/hooks/useSkjemaer";
+import ISkjema from "components/Skjema/models/ISkjema";
 
 interface ExternalProps {
   objekt: IProsjekt;
@@ -18,7 +22,7 @@ interface ExternalProps {
   routeURL: string;
 }
 
-const Prosjekt: FC<ExternalProps> = ({
+const Objekt: FC<ExternalProps> = ({
   objekt,
   refetch,
   objektNavn,
@@ -33,10 +37,13 @@ const Prosjekt: FC<ExternalProps> = ({
 
   const [admin, setAdmin] = useState(erAdmin());
   const [valgt, setValgt] = useState<IProsjekt>(DefaultProsjekt);
+  const [skjemaSok, setSkjemaSok] = useState<ISkjemaSok>(DefaultSkjemaSok);
 
   const endre = (objekt: IProsjekt) => {
     history.push(`/${routeURL}/endre/${objekt.id}`);
   };
+
+  const { data: skjemaListe } = useSkjemaer(skjemaSok);
 
   const slett = (objekt: IProsjekt) => {
     if (objekt.id && admin)
@@ -86,12 +93,6 @@ const Prosjekt: FC<ExternalProps> = ({
               </Col>
               <Col sm="4" className="ml-auto">
                 <div className="d-flex">
-                  <Button
-                    onClick={() => visSkjemaer()}
-                    className="btn btn-sm btn-info"
-                  >
-                    <i className="fas fa-meteor"></i> Skjemaer
-                  </Button>
                   <Button
                     onClick={() => endre(objekt)}
                     className="btn btn-sm btn-primary ml-4"
@@ -194,6 +195,39 @@ const Prosjekt: FC<ExternalProps> = ({
                   </Card>
                 </Col>
               </Row>
+              <Row>
+                <Col sm="12" className="mt-3">
+                  <Card>
+                    <Card.Header>Skjemaer</Card.Header>
+                    <Card.Body>
+                      {objekt &&
+                      objekt.skjemaer &&
+                      objekt.skjemaer.length > 0 ? (
+                        objekt.skjemaer.map((skjema: ISkjema) => (
+                          <table className="table table-bordered">
+                            <thead>
+                              <tr>
+                                <th>Skjemanavn</th>
+                                <th>Skjemakortnavn</th>
+                                <th>Delproduktnummer</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>{skjema.skjemaNavn}</td>
+                                <td>{skjema.skjemaKortNavn}</td>
+                                <td>{skjema.delProduktNummer}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        ))
+                      ) : (
+                        <span>Ingen Skjemaer !</span>
+                      )}
+                    </Card.Body>
+                  </Card>
+                </Col>
+              </Row>
             </Card.Body>
           </Accordion.Collapse>
         </Card>
@@ -202,4 +236,4 @@ const Prosjekt: FC<ExternalProps> = ({
   );
 };
 
-export default Prosjekt;
+export default Objekt;

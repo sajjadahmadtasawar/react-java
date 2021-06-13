@@ -1,4 +1,4 @@
-import IProsjektLeder from "models/ProsjektLeder/IProsjektLeder";
+import IProsjektLeder from "components/ProsjektLeder/models/IProsjektLeder";
 import ISkjema from "components/Skjema/models/ISkjema";
 
 export default interface IProsjekt {

@@ -1,6 +1,5 @@
 -- Roller
 INSERT INTO roller(rolle_navn) VALUES('ROLE_INTERVJUER');
-INSERT INTO roller(rolle_navn) VALUES('ROLE_ADMIN');
 
 -- Brukere
 INSERT INTO brukere (navn, brukernavn, passord, OPPRETTET_DATO, OPPDATERT_DATO) VALUES ('Intervjuer', 'krn', '$2a$10$OAGGSkXjvXSNuUwJclqtmuBKhHv61rTOVaLwE8ZVhWzYSrhM8I00.', PARSEDATETIME ('31-12-18 11:34:24','dd-MM-yy hh:mm:ss'), PARSEDATETIME ('31-12-18 11:34:24','dd-MM-yy hh:mm:ss'));

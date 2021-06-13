@@ -41,7 +41,7 @@ public class BrukerPrincipal implements UserDetails {
 
     public static BrukerPrincipal create(Bruker bruker) {
         List<GrantedAuthority> authorities = bruker.getRoller().stream().map(role ->
-                new SimpleGrantedAuthority(role.getRolleNavn().name())
+                new SimpleGrantedAuthority(role.getRolleNavn())
         ).collect(Collectors.toList());
 
         return new BrukerPrincipal(

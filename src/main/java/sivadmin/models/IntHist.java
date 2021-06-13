@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "produkter")
+@Table(name = "intervjuer_historikk")
 public class IntHist extends DateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,4 +1,4 @@
-import IProsjektLeder from "models/ProsjektLeder/IProsjektLeder";
+import IProsjektLeder from "components/ProsjektLeder/models/IProsjektLeder";
 
 const DefaultProsjektLeder: IProsjektLeder = {
     id: 0,

@@ -38,8 +38,8 @@ export const erAdmin = () => {
   const token = localStorage.token;
   const parsedToken = parseJwt(token);
 
-  if(token && parsedToken && parsedToken.bruker.erAdmin) {
-    return true;
+  if(token && parsedToken && parsedToken.bruker.authorities) {
+    return parsedToken.bruker.authorities.find((a:any) => a.authority === "ROLE_ADMIN");
   }
 
   return false;

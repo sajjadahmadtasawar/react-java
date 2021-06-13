@@ -25,9 +25,9 @@ public class Rolle {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    @NaturalId
-    @Column(length = 60)
-    private Roller rolleNavn;
+    private String rolleNavn;
 
+    public Rolle(String rolleNavn) {
+        this.rolleNavn = rolleNavn;
+    }
 }

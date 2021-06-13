@@ -1,4 +1,4 @@
-export default interface IProsjektLeder {
+export default interface IProsjektLeIder {
     id?: number;
     navn: string;
     initialer?: string;

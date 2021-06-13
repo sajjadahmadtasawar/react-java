@@ -10,12 +10,15 @@ import Sidebar from "components/Layout/Sidebar";
 import Dashbaord from "components/Layout/Dashboard";
 import NavbarLayout from "components/Layout/NavbarLayout";
 import Logginn from "components/Auth/Logginn";
-import ProsjektListe from "components/Prosjekt/views/Prosjekt.liste";
-import ProsjektOpprett from "components/Prosjekt/views/Prosjekt.Opprett";
-import ProsjektEndre from "components/Prosjekt/views/Prosjekt.Endre";
+import Liste from "components/Prosjekt/views/Liste";
+import Opprett from "components/Prosjekt/views/Opprett";
+import Endre from "components/Prosjekt/views/Endre";
 import SkjemaListe from "components/Skjema/views/Skjema.liste";
 import SkjemaOpprett from "components/Skjema/views/Skjema.Opprett";
 import SkjemaEndre from "components/Skjema/views/Skjema.Endre";
+
+import ProsjektLederListe from "components/ProsjektLeder/views/Liste";
+import IntervjuObjektListe from "components/IntervjueObjekt/views/Liste";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -38,18 +41,15 @@ const App: FC = () => {
                 <Switch>
                   <Route exact path="/logginn" component={Logginn} />
                   <Route exact path="/" component={Dashbaord} />
-                  <Route exact path="/prosjekter" component={ProsjektListe} />
-                  <Route
-                    exact
-                    path="/prosjekter/opprett"
-                    component={ProsjektOpprett}
-                  />
-                  <Route
-                    exact
-                    path="/prosjekter/endre/:id"
-                    component={ProsjektEndre}
-                  />
+                  <Route exact path="/prosjekter" component={Liste} />
+                  <Route exact path="/prosjekter/opprett" component={Opprett} />
+                  <Route exact path="/prosjekter/endre/:id" component={Endre} />
                   <Route exact path="/skjemaer" component={SkjemaListe} />
+                  <Route
+                    exact
+                    path="/prosjektLeder"
+                    component={ProsjektLederListe}
+                  />
                   <Route
                     exact
                     path="/skjemaer/opprett"
@@ -61,6 +61,7 @@ const App: FC = () => {
                     component={SkjemaEndre}
                   />
                   <Route exact path="/utvalg" component={SkjemaListe} />
+                  <Route exact path="/io_sok" component={IntervjuObjektListe} />
                 </Switch>
               </div>
             </main>

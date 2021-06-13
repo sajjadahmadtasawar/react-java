@@ -119,23 +119,7 @@ const Sidebar: FC = () => {
               </div>
               Utvalg
             </Link>
-            <Link
-              className={
-                location.pathname.includes("intervjuer_rapport")
-                  ? "nav-link active"
-                  : "nav-link"
-              }
-              to={`/intervjuer_rapport`}
-            >
-              <div className="sb-nav-link-icon">
-                {location.pathname.includes("intervjuer_rapport") ? (
-                  <BsBookHalf />
-                ) : (
-                  <BsBook />
-                )}
-              </div>
-              Intervjuerrapport
-            </Link>
+
             <div className="sb-sidenav-menu-heading">Administrasjon</div>
             <Link
               className={
@@ -352,6 +336,23 @@ const Sidebar: FC = () => {
             </Link>
 
             <div className="sb-sidenav-menu-heading">Intervjuer</div>
+            <Link
+              className={
+                location.pathname.includes("intervjuer_rapport")
+                  ? "nav-link active"
+                  : "nav-link"
+              }
+              to={`/intervjuer_rapport`}
+            >
+              <div className="sb-nav-link-icon">
+                {location.pathname.includes("intervjuer_rapport") ? (
+                  <BsBookHalf />
+                ) : (
+                  <BsBook />
+                )}
+              </div>
+              Intervjuerrapport
+            </Link>
             <Link
               className={
                 location.pathname.includes("egne_resultater")

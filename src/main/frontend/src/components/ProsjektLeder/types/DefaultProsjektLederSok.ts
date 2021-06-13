@@ -1,4 +1,4 @@
-import IProsjektLederSok from "models/ProsjektLeder/IProsjektLederSok";
+import IProsjektLederSok from "components/ProsjektLeder/models/IProsjektLederSok";
 
 const DefaultProsjektLederSok: IProsjektLederSok = {
     navn: '',

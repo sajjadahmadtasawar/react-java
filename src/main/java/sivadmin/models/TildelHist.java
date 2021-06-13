@@ -15,7 +15,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tildeltHistorikk")
+@Table(name = "tildelt_historikk")
 public class TildelHist extends DateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

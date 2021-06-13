@@ -7,11 +7,11 @@ import { aarene, EnumArray } from "helpers/utils";
 import ProsjektModus from "components/Prosjekt/enums/ProsjektModus";
 import ProsjektFinansiering from "components/Prosjekt/enums/ProsjektFinansiering";
 import ProsjektStatus from "components/Prosjekt/enums/ProsjektStatus";
-import IProsjektLeder from "models/ProsjektLeder/IProsjektLeder";
-import IProsjektLederSok from "models/ProsjektLeder/IProsjektLederSok";
-import useProsjektLedereSok from "context/hooks/ProsjektLeder/useProsjektLedere";
+import IProsjektLeder from "components/ProsjektLeder/models/IProsjektLeder";
+import IProsjektLederSok from "components/ProsjektLeder/models/IProsjektLederSok";
+import useProsjektLedereSok from "components/ProsjektLeder/hooks/useProsjektLedere";
 import moment from "moment";
-import DefaultProsjektLederSok from "types/DefaultProsjektLederSok";
+import DefaultProsjektLederSok from "components/ProsjektLeder/types/DefaultProsjektLederSok";
 
 interface Parametere {
   prosjekt: IProsjekt;
@@ -20,7 +20,7 @@ interface Parametere {
   validert: boolean;
 }
 
-const ProsjektSkjema: FC<Parametere> = ({
+const IntervjueObjektSkjema: FC<Parametere> = ({
   prosjekt,
   haandterEndring,
   haandterSubmit,
@@ -308,4 +308,4 @@ const ProsjektSkjema: FC<Parametere> = ({
   );
 };
 
-export default ProsjektSkjema;
+export default IntervjueObjektSkjema;

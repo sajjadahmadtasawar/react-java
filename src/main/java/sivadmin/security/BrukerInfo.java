@@ -46,7 +46,7 @@ public class BrukerInfo implements UserDetails {
         this.authorities = authorities;
 
         Boolean erAdmin = false;
-        if(authorities.contains(Roller.ROLE_ADMIN)) {
+        if(authorities.contains("ROLE_ADMIN")) {
             erAdmin = true;
         }
 
@@ -57,11 +57,11 @@ public class BrukerInfo implements UserDetails {
 
     public static BrukerInfo create(Bruker bruker) {
         List<GrantedAuthority> authorities = bruker.getRoller().stream().map(role ->
-                new SimpleGrantedAuthority(role.getRolleNavn().name())
+                new SimpleGrantedAuthority(role.getRolleNavn())
         ).collect(Collectors.toList());
 
         Boolean erAdmin = false;
-        if(authorities.contains(Roller.ROLE_ADMIN)) {
+        if(authorities.contains("ROLE_ADMIN")) {
             erAdmin = true;
         }
 

@@ -3,7 +3,7 @@ import React, { BaseSyntheticEvent, FC, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import axiosInstance from "helpers/axiosInstance";
-import ProsjektSkjema from "./Prosjekt.Skjema";
+import ProsjektSkjema from "./Skjema";
 import IProsjekt from "components/Prosjekt/models/IProsjekt";
 import { useQuery } from "react-query";
 import DefaultProsjekt from "components/Prosjekt/types/DefaultProsjekt";
@@ -12,7 +12,7 @@ interface RouteParams {
   id: string;
 }
 
-const ProsjektEndre: FC = () => {
+const IntervjueObjektEndre: FC = () => {
   const params: RouteParams = useParams();
   const id = params.id;
 
@@ -116,4 +116,4 @@ const ProsjektEndre: FC = () => {
   );
 };
 
-export default ProsjektEndre;
+export default IntervjueObjektEndre;

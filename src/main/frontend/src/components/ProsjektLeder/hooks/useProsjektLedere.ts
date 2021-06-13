@@ -1,8 +1,8 @@
 import { useQuery } from "react-query";
 import axiosInstance from "helpers/axiosInstance";
 import { genererSok } from "helpers/utils";
-import IProsjektLederListe from "models/ProsjektLeder/IProsjektLederListe";
-import IProsjektLederSok from "models/ProsjektLeder/IProsjektLederSok";
+import IProsjektLederSok from "components/ProsjektLeder/models/IProsjektLederSok";
+import IProsjektLederListe from "../models/IProsjektLederListe";
 
 const hentProsjektLedere = async (sok: IProsjektLederSok) => {
   const query = genererSok(sok);
