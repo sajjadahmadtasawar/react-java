@@ -30,4 +30,10 @@ public class Kommune extends DateAudit {
     @JoinColumn(name = "klynge_id", nullable = false)
     @JsonBackReference
     private Klynge klynge;
+
+    public Kommune(String kommuneNummer, String kommuneNavn, Klynge klynge) {
+        this.kommuneNummer = kommuneNummer;
+        this.kommuneNavn = kommuneNavn;
+        this.klynge = klynge;
+    }
 }

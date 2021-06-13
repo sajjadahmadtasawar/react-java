@@ -7,7 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import sivadmin.models.Intervjuer;
 
+import java.util.Optional;
+
 @RepositoryRestResource(collectionResourceRel = "intervjuere", path = "intervjuere")
 public interface IntervjuerRepository extends JpaRepository<Intervjuer, Long> {
     Page<Intervjuer> findAll(Specification<Intervjuer> spec, Pageable pageable);
+    Optional<Intervjuer> findByInitialer(String initialer);
 }

@@ -42,4 +42,11 @@ public class Klynge extends DateAudit {
             fetch = FetchType.LAZY,
             mappedBy = "klynge")
     private Set<Kommune> kommuner = new HashSet<>();
+
+    public Klynge(@NotBlank @Size(max = 200) String klyngeNavn, String klyngeSjef, String epost, String beskrivelse) {
+        this.klyngeNavn = klyngeNavn;
+        this.klyngeSjef = klyngeSjef;
+        this.epost = epost;
+        this.beskrivelse = beskrivelse;
+    }
 }

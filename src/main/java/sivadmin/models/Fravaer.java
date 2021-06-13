@@ -29,11 +29,18 @@ public class Fravaer extends DateAudit {
     private String fravaerType;
     private Long prosent;
     private String kommentar;
-    private String redigertAv;
-    private Date redigertDato;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "intervjuer_id", nullable = false)
     @JsonBackReference
     private Intervjuer intervjuer;
+
+    public Fravaer(Date fraTidspunkt, Date tilTidspunkt, String fravaerType, Long prosent, String kommentar, Intervjuer intervjuer) {
+        this.fraTidspunkt = fraTidspunkt;
+        this.tilTidspunkt = tilTidspunkt;
+        this.fravaerType = fravaerType;
+        this.prosent = prosent;
+        this.kommentar = kommentar;
+        this.intervjuer = intervjuer;
+    }
 }
