@@ -3,6 +3,9 @@ package sivadmin.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import sivadmin.models.*;
+import sivadmin.payload.Request.AdresseRequest;
+import sivadmin.payload.Request.PeriodeRequest;
+import sivadmin.payload.Request.SkjemaRequest;
 import sivadmin.repository.*;
 
 import javax.annotation.PostConstruct;
@@ -36,6 +39,18 @@ public class AppIntializer {
 
     @Autowired
     FravaerRepository fravaerRepository;
+
+    @Autowired
+    ProduktRepository produktRepository;
+
+    @Autowired
+    PeriodeRepository periodeRepository;
+
+    @Autowired
+    IntervjuObjektRepository intervjuObjektRepository;
+
+    @Autowired
+    AdresseRepository adresseRepository;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -74,54 +89,20 @@ public class AppIntializer {
             opprettKlynger();
         }
 
-        // Lag test prosjektledere
-        ProsjektLeder prosjektLeder = new ProsjektLeder();
-        prosjektLeder.setNavn("Braakjekk Seeberg");
-        prosjektLeder.setInitialer("raz");
-        prosjektLeder.setEpost("raz@ssb.no");
-        prosjektLederRepository.save(prosjektLeder);
+        if(produktRepository.count() == 0) {
+            opprettProdukter();
+        }
 
-        String navn = "Levekaar";
+        if(intervjuerRepository.count() < 2 ) {
+            opprettIntervjuere();
+        }
 
-        // Lag test prosjekter
-        for (int i = 0; i < 36; i++) {
+        if(prosjektRepository.count() == 0) {
+            opprettProsjekter();
+        }
 
-            if(i > 10) {
-                navn = "Demo";
-            }
-
-            Calendar calen = Calendar.getInstance();
-            calen.add(Calendar.DAY_OF_YEAR, 60 + i);
-
-            ProsjektLeder prosjektLeder1 = prosjektLederRepository.findFirstByOrderByIdAsc();
-
-            Prosjekt prosjekt = new Prosjekt();
-            prosjekt.setPanel(true);
-            prosjekt.setProduktNummer("0549" + i);
-            prosjekt.setModus("En");
-            prosjekt.setRegisterNummer("012" + i);
-
-            prosjekt.setProsjektNavn(navn + i);
-            prosjekt.setAargang("201" + i);
-            prosjekt.setProsjektLeder(prosjektLeder1);
-            prosjekt.setOppstartDato(new Date());
-            prosjekt.setAvslutningsDato(calen.getTime());
-            prosjekt.setProsjektStatus("Aktiv");
-            prosjekt.setFinansiering("Stat");
-            prosjekt.setProsentStat(100L);
-            prosjekt.setProsentMarked(0L);
-            prosjekt.setKommentar("ingen");
-
-
-            Skjema skjema = new Skjema();
-            skjema.setSkjemaNavn("skjema" + i);
-            skjema.setSkjemaKortNavn("kortnavn" + i);
-            skjema.setDelProduktNummer("3883" + i);
-            skjema.setProsjekt(prosjekt);
-
-            prosjekt.getSkjemaer().add(skjema);
-            prosjektRepository.save(prosjekt);
-
+        if(intervjuObjektRepository.count() == 0) {
+     //       opprettIntervjueObjekter();
         }
 
     }
@@ -381,6 +362,7 @@ public class AppIntializer {
         Klynge klynge7 = new Klynge("Klynge Nord", "hbl", "klyngenord@ssb.no", "Klynge for Nord-Norge");
         Klynge klynge8 = new Klynge("Klynge Ringesenter Oslo", "ruw", "klyngeringesenteroslo@ssb.no", "Klynge for Ringesenter Oslo");
         Klynge klynge9 = new Klynge("Klynge Ringesenter Kongsvinger", "ord", "klyngeringesenterkongsvinger@ssb.no", "Klynge for Ringesenter Kongsvinger");
+        Klynge klynge0 = new Klynge("Klynge Skui", "imr", "skui@ssb.no", "Klynge for Skui");
 
        klyngeRepository.save(klynge2);
        klyngeRepository.save(klynge3);
@@ -391,6 +373,307 @@ public class AppIntializer {
        klyngeRepository.save(klynge7);
        klyngeRepository.save(klynge8);
        klyngeRepository.save(klynge9);
+       klyngeRepository.save(klynge0);
     }
     
+    void opprettProdukter() {
+        Produkt produkt1 = new Produkt("Etter avtale med kontoret", "00980-0", "STAT_MARKED", 50L, 50L);
+        Produkt produkt2 = new Produkt("Opplæring", "00980-1", "STAT_MARKED", 50L, 50L);
+        Produkt produkt3 = new Produkt("SIV - System for intervjuvirksomhet, FOSS", "07413-0", "STAT_MARKED", 50L, 50L);
+        Produkt produkt4 = new Produkt("Utredning av intervjuvirksomheten", "01209-0", "STAT_MARKED", 50L, 50L);
+        Produkt produkt5 = new Produkt("Helse, miljø og sikkerhet", "01830-0", "STAT_MARKED", 50L, 50L);
+        Produkt produkt6 = new Produkt("Problemer med PCen", "01860-0", "STAT_MARKED", 50L, 50L);
+        Produkt produkt7 = new Produkt("KPI: Prisinnsamling", "02480-9", "STAT_MARKED", 50L, 50L);
+        Produkt produkt8 = new Produkt("Fagforeningsarbeid", "03220-0", "STAT_MARKED", 50L, 50L);
+        Produkt produkt9 = new Produkt("Administrasjon", "01004-0", "STAT_MARKED", 50L, 50L);
+
+        produktRepository.save(produkt1);
+        produktRepository.save(produkt2);
+        produktRepository.save(produkt3);
+        produktRepository.save(produkt4);
+        produktRepository.save(produkt5);
+        produktRepository.save(produkt6);
+        produktRepository.save(produkt7);
+        produktRepository.save(produkt8);
+        produktRepository.save(produkt9);
+    }
+
+    void opprettIntervjuere() {
+        Klynge klynge1 = klyngeRepository.getByKlyngeNavn("Klynge Oslo");
+        Klynge klynge0 = klyngeRepository.getByKlyngeNavn("Klynge Skui");
+        Klynge klynge2 = klyngeRepository.getByKlyngeNavn("Klynge Østlandet");
+        Klynge klynge3 = klyngeRepository.getByKlyngeNavn("Klynge Innlandet");
+        Klynge klynge4 = klyngeRepository.getByKlyngeNavn("Klynge Sør-Vest");
+        Klynge klynge5 = klyngeRepository.getByKlyngeNavn("Klynge Vest");
+        Klynge klynge6 = klyngeRepository.getByKlyngeNavn("Klynge Midt-Norge");
+        Klynge klynge7 = klyngeRepository.getByKlyngeNavn("Klynge Nord");
+        Klynge klynge8 = klyngeRepository.getByKlyngeNavn("Klynge Ringesenter Oslo");
+        Klynge klynge9 = klyngeRepository.getByKlyngeNavn("Klynge Ringesenter Kongsvinger");
+
+        Rolle rolleIntervjuer = rolleRepository.findByRolleNavn("ROLE_INTERVJUER");
+
+        Intervjuer intervjuer1 = new Intervjuer();
+        intervjuer1.setInitialer("adn");
+        intervjuer1.setIntervjuerNummer(101604l);
+        intervjuer1.setNavn("Nordnes Åshild");
+        intervjuer1.setKjonn("KVINNE");
+        intervjuer1.setKlynge(klynge6);
+
+        Calendar cal = Calendar.getInstance();
+
+        cal.set(Calendar.YEAR, 1974);
+        cal.set(Calendar.MONTH, 2);
+        cal.set(Calendar.DAY_OF_MONTH, 15);
+        intervjuer1.setFodselsDato(cal.getTime());
+
+        intervjuer1.setGateAdresse("Etterstadsletta 68");
+        intervjuer1.setPostNummer("0659");
+        intervjuer1.setPostSted("Oslo");
+        intervjuer1.setKommuneNummer("1663");
+        intervjuer1.setEpostPrivat("texasslim@gmail.com");
+        intervjuer1.setEpostJobb("krn@ssb.no");
+        intervjuer1.setStatus("AKTIV");
+
+        cal.set(Calendar.YEAR, 2010);
+        cal.set(Calendar.MONTH, 0);
+        cal.set(Calendar.DAY_OF_MONTH, 0);
+
+        intervjuer1.setAnsattDato(cal.getTime());
+
+        intervjuer1.setAvtaltAntallTimer(1500L);
+        intervjuer1.setArbeidsType("BEGGE");
+
+        cal.set(Calendar.YEAR, 2050);
+        cal.set(Calendar.MONTH, 1);
+        cal.set(Calendar.DAY_OF_MONTH, 1);
+
+        intervjuer1.setSluttDato(cal.getTime());
+
+        intervjuerRepository.save(intervjuer1);
+    }
+
+    void opprettProsjekter() {
+        if(prosjektLederRepository.count() == 0) {
+            opprettProsjektLedere();
+        }
+
+        ProsjektLeder prosjektLeder1 = prosjektLederRepository.findByInitialer("raz");
+        ProsjektLeder prosjektLeder2 = prosjektLederRepository.findByInitialer("imr");
+
+        Calendar calen = Calendar.getInstance();
+        calen.add(Calendar.DAY_OF_YEAR, 60);
+
+        Prosjekt prosjekt = new Prosjekt();
+
+        prosjekt.setPanel(true);
+        prosjekt.setProduktNummer("05490");
+        prosjekt.setModus("En");
+        prosjekt.setRegisterNummer("0123");
+        prosjekt.setProsjektNavn("Levekaar");
+        prosjekt.setAargang("2010");
+        prosjekt.setProsjektLeder(prosjektLeder1);
+        prosjekt.setOppstartDato(new Date());
+        prosjekt.setAvslutningsDato(calen.getTime());
+        prosjekt.setProsjektStatus("Aktiv");
+        prosjekt.setFinansiering("Stat");
+        prosjekt.setProsentStat(100L);
+        prosjekt.setProsentMarked(0L);
+        prosjekt.setKommentar("test");
+
+        prosjektRepository.save(prosjekt);
+
+        Prosjekt prosjekt2 = new Prosjekt();
+
+        prosjekt2.setPanel(true);
+        prosjekt2.setProduktNummer("00345");
+        prosjekt2.setModus("En");
+        prosjekt2.setRegisterNummer("0234");
+        prosjekt2.setProsjektNavn("Medie");
+        prosjekt2.setAargang("2010");
+        prosjekt2.setProsjektLeder(prosjektLeder2);
+        prosjekt2.setOppstartDato(new Date());
+        prosjekt2.setAvslutningsDato(calen.getTime());
+        prosjekt2.setProsjektStatus("Aktiv");
+        prosjekt2.setFinansiering("Stat");
+        prosjekt2.setProsentStat(100L);
+        prosjekt2.setProsentMarked(0L);
+        prosjekt2.setKommentar("test");
+
+        prosjektRepository.save(prosjekt2);
+
+        Prosjekt prosjekt3 = new Prosjekt();
+
+        prosjekt3.setPanel(true);
+        prosjekt3.setProduktNummer("05776");
+        prosjekt3.setModus("En");
+        prosjekt3.setRegisterNummer("0234");
+        prosjekt3.setProsjektNavn("PIAAC");
+        prosjekt3.setAargang("2011");
+        prosjekt3.setProsjektLeder(prosjektLeder1);
+        prosjekt3.setOppstartDato(new Date());
+        prosjekt3.setAvslutningsDato(calen.getTime());
+        prosjekt3.setProsjektStatus("Aktiv");
+        prosjekt3.setFinansiering("Stat");
+        prosjekt3.setProsentStat(100L);
+        prosjekt3.setProsentMarked(0L);
+        prosjekt3.setKommentar("piaac test");
+
+        prosjektRepository.save(prosjekt3);
+
+        Prosjekt prosjekt4 = new Prosjekt();
+
+        prosjekt4.setPanel(true);
+        prosjekt4.setProduktNummer("02090");
+        prosjekt4.setModus("En");
+        prosjekt4.setRegisterNummer("0234");
+        prosjekt4.setProsjektNavn("AKU");
+        prosjekt4.setAargang("2011");
+        prosjekt4.setProsjektLeder(prosjektLeder1);
+        prosjekt4.setOppstartDato(new Date());
+        prosjekt4.setAvslutningsDato(calen.getTime());
+        prosjekt4.setProsjektStatus("Aktiv");
+        prosjekt4.setFinansiering("Stat");
+        prosjekt4.setProsentStat(100L);
+        prosjekt4.setProsentMarked(0L);
+        prosjekt4.setKommentar("aku test");
+
+        prosjektRepository.save(prosjekt4);
+
+        opprettSkjemaer(prosjekt);
+
+    }
+
+    void opprettProsjektLedere() {
+        ProsjektLeder prosjektLeder1 = new ProsjektLeder("Braakjekk Seeberg", "raz", "raz@ssb.no");
+        ProsjektLeder prosjektLeder2 = new ProsjektLeder("Ibrahim Rahmani", "imr", "imr@ssb.no");
+        ProsjektLeder prosjektLeder3 = new ProsjektLeder("Trond", "trond", "trond@ssb.no");
+        ProsjektLeder prosjektLeder4 = new ProsjektLeder("Ole Nordmann", "ole", "ole@ssb.no");
+        ProsjektLeder prosjektLeder5 = new ProsjektLeder("Daud Rahmani", "ddr", "ddr@ssb.no");
+
+        prosjektLederRepository.save(prosjektLeder1);
+        prosjektLederRepository.save(prosjektLeder2);
+        prosjektLederRepository.save(prosjektLeder3);
+        prosjektLederRepository.save(prosjektLeder4);
+        prosjektLederRepository.save(prosjektLeder5);
+    }
+
+    void opprettPerioder(Skjema skjema) {
+        PeriodeRequest periodeRequest = new PeriodeRequest();
+
+        periodeRequest.setAar("2010");
+        periodeRequest.setPeriodeNummer(1L);
+        periodeRequest.setPeriodeType("KVRT");
+        periodeRequest.setOppstartDataInnsamling(new Date());
+        periodeRequest.setHentesTidligst(new Date());
+        periodeRequest.setPlanlagtSluttDato(new Date());
+        periodeRequest.setSluttDato(new Date());
+        periodeRequest.setIncentiver("in");
+        periodeRequest.setKommentar("periode1-1");
+        periodeRequest.setDelregisterNummer(1234L);
+
+        Periode periode = new Periode(periodeRequest);
+        periode.setSkjema(skjema);
+
+        periodeRepository.save(periode);
+
+        periodeRequest.setAar("2010");
+        periodeRequest.setPeriodeNummer(2L);
+        periodeRequest.setPeriodeType("KVRT");
+        periodeRequest.setOppstartDataInnsamling(new Date());
+        periodeRequest.setHentesTidligst(new Date());
+        periodeRequest.setPlanlagtSluttDato(new Date());
+        periodeRequest.setSluttDato(new Date());
+        periodeRequest.setIncentiver("in");
+        periodeRequest.setKommentar("periode2-1");
+        periodeRequest.setDelregisterNummer(1234L);
+
+        Periode periode2 = new Periode(periodeRequest);
+        periode2.setSkjema(skjema);
+
+        periodeRepository.save(periode2);
+    }
+
+    void opprettSkjemaer(Prosjekt prosjekt) {
+        Calendar calen = Calendar.getInstance();
+        calen.set(Calendar.YEAR, 2012);
+        calen.set(Calendar.MONTH, 1);
+        calen.set(Calendar.DATE, 25);
+
+        SkjemaRequest skjema = new SkjemaRequest();
+        skjema.setSkjemaNavn("levekaar_skjema");
+        skjema.setSkjemaKortNavn("lev");
+        skjema.setDelProduktNummer("05490-0");
+        skjema.setUndersokelseType("Bedrift");
+        skjema.setInstrumentId("skjema1");
+        skjema.setIntervjuTypeBesok(true);
+        skjema.setIntervjuTypeTelefon(true);
+        skjema.setIntervjuTypePapir(false);
+        skjema.setIntervjuTypeWeb(false);
+        skjema.setKanSlettesLokalt(false);
+        skjema.setAltIBlaise5(true);
+        skjema.setOppstartDataInnsamling(calen.getTime());
+        skjema.setStatus("S");
+        skjema.setPlanlagtSluttDato(new Date());
+        skjema.setSluttDato(new Date());
+        skjema.setOvertid(true);
+        skjema.setOnsketSvarProsent(80L);
+        skjema.setDataUttaksDato(new Date());
+        skjema.setHentAlleOppdrag(true);
+        skjema.setKanSlettesLokalt(true);
+        skjema.setIntervjuVarighet(20L);
+        skjema.setAdminTid(20L);
+        skjema.getRegoverforingDato();
+        skjema.setRegoverforingInitialer("imr");
+        skjema.setRegoverforingSeksjon("750");
+        skjema.setIoBrevGodkjentDato(new Date());
+        skjema.setIoBrevGodkjentInitialer("imr");
+        skjema.setMalVersjon(2L);
+        skjema.setKommentar("test");
+
+        Skjema nySkjema = new Skjema(skjema);
+        nySkjema.setProsjekt(prosjekt);
+
+        skjemaRepository.save(nySkjema);
+
+        opprettPerioder(nySkjema);
+
+    }
+
+    void opprettIntervjueObjekter() {
+        Calendar calen_fom = Calendar.getInstance();
+        Calendar calen_tom = Calendar.getInstance();
+
+        calen_fom.set(Calendar.YEAR, 2014);
+        calen_fom.set(Calendar.MONTH, 4);
+        calen_fom.set(Calendar.DATE, 3);
+
+        calen_tom.set(Calendar.YEAR, 2015);
+        calen_tom.set(Calendar.MONTH, 4);
+        calen_tom.set(Calendar.DATE, 3);
+
+        AdresseRequest adresseRequest = new AdresseRequest();
+        adresseRequest.setAdresseType("Besøk");
+        adresseRequest.setGateAdresse("Olav Kyres gt.");
+        adresseRequest.setPostNummer("5000");
+        adresseRequest.setPostSted("Bergen");
+        adresseRequest.setGyldigFom(calen_fom.getTime());
+        adresseRequest.setGyldigTom(calen_tom.getTime());
+        adresseRequest.setGjeldende(true);
+
+        Adresse adresse = new Adresse(adresseRequest);
+        adresseRepository.save(adresse);
+
+        adresseRequest.setAdresseType("Post");
+        adresseRequest.setGateAdresse("Torgalmenningen 4");
+        adresseRequest.setPostNummer("5000");
+        adresseRequest.setPostSted("Bergen");
+        adresseRequest.setGyldigFom(calen_fom.getTime());
+        adresseRequest.setGyldigTom(calen_tom.getTime());
+        adresseRequest.setGjeldende(true);
+
+        Adresse adresse2 = new Adresse(adresseRequest);
+        adresseRepository.save(adresse2);
+
+
+    }
 }

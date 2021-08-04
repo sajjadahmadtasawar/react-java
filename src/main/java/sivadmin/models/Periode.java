@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import sivadmin.models.audit.DateAudit;
+import sivadmin.payload.Request.PeriodeRequest;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -21,6 +22,7 @@ public class Periode extends DateAudit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String aar;
     private Long periodeNummer;
     private String periodeType;
     private Date oppstartDataInnsamling;
@@ -42,4 +44,17 @@ public class Periode extends DateAudit {
             fetch = FetchType.LAZY,
             mappedBy = "periode")
     private Set<IntervjuObjekt> intervjuObjekter = new HashSet<>();
+
+    public Periode(PeriodeRequest periodeRequest) {
+        this.aar = periodeRequest.getAar();
+        this.periodeNummer = periodeRequest.getPeriodeNummer();
+        this.periodeType = periodeRequest.getPeriodeType();
+        this.oppstartDataInnsamling = periodeRequest.getOppstartDataInnsamling();
+        this.hentesTidligst = periodeRequest.getHentesTidligst();
+        this.planlagtSluttDato = periodeRequest.getPlanlagtSluttDato();
+        this.sluttDato = periodeRequest.getSluttDato();
+        this.incentiver = periodeRequest.getIncentiver();
+        this.kommentar = periodeRequest.getKommentar();
+        this.delregisterNummer = periodeRequest.getDelregisterNummer();
+    }
 }

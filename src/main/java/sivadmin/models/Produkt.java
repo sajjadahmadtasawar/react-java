@@ -41,4 +41,12 @@ public class Produkt extends DateAudit {
         this.prosentStat = produktRequest.getProsentStat();
         this.prosentMarked = produktRequest.getProsentMarked();
     }
+
+    public Produkt(@NotBlank @Size(max = 200) String navn, String produktNummer, String finansiering, Long prosentStat, Long prosentMarked) {
+        this.navn = navn;
+        this.produktNummer = produktNummer;
+        this.finansiering = finansiering;
+        this.prosentStat = prosentStat;
+        this.prosentMarked = prosentMarked;
+    }
 }

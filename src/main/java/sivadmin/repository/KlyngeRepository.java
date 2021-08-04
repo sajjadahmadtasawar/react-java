@@ -13,5 +13,6 @@ import java.util.List;
 @RepositoryRestResource(collectionResourceRel = "klynger", path = "klynger")
 public interface KlyngeRepository extends JpaRepository<Klynge, Long> {
     List<Klynge> findByKlyngeNavn(@Param("klyngeNavn") String klyngeNavn);
+    Klynge getByKlyngeNavn(String klyngeNavn);
     Page<Klynge> findAll(Specification<Klynge> spec, Pageable pageable);
 }

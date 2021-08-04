@@ -10,4 +10,5 @@ import sivadmin.models.Periode;
 @RepositoryRestResource(collectionResourceRel = "perioder", path = "perioder")
 public interface PeriodeRepository extends JpaRepository<Periode, Long> {
     Page<Periode> findAll(Specification<Periode> spec, Pageable pageable);
+    Periode findByKommentar(String kommentar);
 }

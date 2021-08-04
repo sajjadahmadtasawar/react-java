@@ -16,5 +16,6 @@ import java.util.List;
 public interface ProsjektLederRepository extends JpaRepository<ProsjektLeder, Long> {
     List<ProsjektLeder> findByNavn(@Param("navn") String navn);
     ProsjektLeder findFirstByOrderByIdAsc();
+    ProsjektLeder findByInitialer(String initialer);
     Page<ProsjektLeder> findAll(Specification<ProsjektLeder> spec, Pageable pageable);
 }

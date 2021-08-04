@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import sivadmin.models.audit.DateAudit;
+import sivadmin.payload.Request.AdresseRequest;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -44,4 +45,25 @@ public class Adresse extends DateAudit {
     @JoinColumn(name = "intervjue_objekt_id", nullable = false)
     @JsonBackReference
     private IntervjuObjekt intervjuObjekt;
+
+    public Adresse(AdresseRequest adresseRequest) {
+        this.adresseType = adresseRequest.getAdresseType();
+        this.kommentar = adresseRequest.getKommentar();
+        this.gyldigFom = adresseRequest.getGyldigFom();
+        this.gyldigTom = adresseRequest.getGyldigTom();
+        this.gateAdresse = adresseRequest.getGateAdresse();
+        this.tilleggsAdresse = adresseRequest.getTilleggsAdresse();
+        this.husBruksNummer = adresseRequest.getHusBruksNummer();
+        this.underNummer = adresseRequest.getUnderNummer();
+        this.bokstavFeste = adresseRequest.getBokstavFeste();
+        this.boligNummer = adresseRequest.getBoligNummer();
+        this.postNummer = adresseRequest.getPostNummer();
+        this.postSted = adresseRequest.getPostSted();
+        this.kommuneNummer = adresseRequest.getKommuneNummer();
+        this.gateGaardNummer = adresseRequest.getGateGaardNummer();
+        this.original = adresseRequest.getOriginal();
+        this.redigertAv = adresseRequest.getRedigertAv();
+        this.redigertDato = adresseRequest.getRedigertDato();
+        this.gjeldende = adresseRequest.getGjeldende();
+    }
 }

@@ -2,10 +2,8 @@ package sivadmin.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.*;
 import sivadmin.models.audit.DateAudit;
 import sivadmin.payload.Request.SkjemaRequest;
 
@@ -13,6 +11,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -71,6 +71,13 @@ public class Skjema extends DateAudit {
     @JoinColumn(name = "prosjekt_id", nullable = false)
     @JsonBackReference
     private Prosjekt prosjekt;
+
+    @ToString.Exclude
+    @JsonManagedReference
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "skjema")
+    private Set<Periode> perioder = new HashSet<>();
 
     public Skjema(SkjemaRequest skjemaRequest) {
         this.skjemaNavn = skjemaRequest.getSkjemaNavn();

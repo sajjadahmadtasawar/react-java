@@ -32,4 +32,10 @@ public class ProsjektLeder extends DateAudit {
     @Size(max = 20)
     @Email
     private String epost;
+
+    public ProsjektLeder(@NotBlank @Size(max = 200) String navn, @Size(max = 20) String initialer, @Size(max = 20) @Email String epost) {
+        this.navn = navn;
+        this.initialer = initialer;
+        this.epost = epost;
+    }
 }
