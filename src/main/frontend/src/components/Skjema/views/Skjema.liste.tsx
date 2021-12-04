@@ -1,6 +1,6 @@
-import React, { BaseSyntheticEvent, FC, useState } from "react";
-import Spinner from "react-bootstrap/esm/Spinner";
-import { useHistory } from "react-router-dom";
+import React, { BaseSyntheticEvent, FC, useState } from 'react';
+import Spinner from 'react-bootstrap/esm/Spinner';
+import { useHistory } from 'react-router-dom';
 import {
   Button,
   Card,
@@ -9,17 +9,19 @@ import {
   Row,
   ToggleButton,
   ToggleButtonGroup,
-} from "react-bootstrap";
-import ISkjema from "components/Skjema/models/ISkjema";
-import Skjema from "./Skjema";
-import { EnumArray } from "helpers/utils";
-import ISkjemaSok from "components/Skjema/models/ISkjemaSok";
-import PaginationControll from "components/Felles/PaginationControll";
-import { BiSortDown, BiSortUp } from "react-icons/bi";
-import DefaultSkjemaSok from "components/Skjema/types/DefaultSkjemaSok";
-import UndersokelseType from "components/Skjema/enums/UndersokelseType";
-import SkjemaSorter from "components/Skjema/enums/SkjemaSorter";
-import useSkjemaer from "../hooks/useSkjemaer";
+} from 'react-bootstrap';
+import ISkjema from 'components/Skjema/models/ISkjema';
+import Skjema from './Skjema';
+import { EnumArray } from 'helpers/utils';
+import ISkjemaSok from 'components/Skjema/models/ISkjemaSok';
+import PaginationControll from 'components/Felles/PaginationControll';
+import { BiSortDown, BiSortUp } from 'react-icons/bi';
+import DefaultSkjemaSok from 'components/Skjema/types/DefaultSkjemaSok';
+import UndersokelseType from 'components/Skjema/enums/UndersokelseType';
+import SkjemaSorter from 'components/Skjema/enums/SkjemaSorter';
+import useSkjemaer from '../hooks/useSkjemaer';
+
+const fakeList = [1, 2, 3];
 
 const SkjemaListe: FC = () => {
   const [sok, setSok] = useState<ISkjemaSok>(DefaultSkjemaSok);
@@ -31,6 +33,8 @@ const SkjemaListe: FC = () => {
   const haandterSok = (e: BaseSyntheticEvent) => {
     const name = e.currentTarget.name as string;
     const value = e.currentTarget.value as string;
+    console.log(process.env.REACT_APP_API_URL);
+    console.log(value);
 
     setSok({ ...sok, [name]: value, side: 1 });
     refetch();
@@ -47,7 +51,7 @@ const SkjemaListe: FC = () => {
     data && data.skjemaer && data.skjemaer.length > 0 ? true : false;
 
   const setSide = (e: BaseSyntheticEvent) => {
-    const side = e.target.getAttribute("data-text");
+    const side = e.target.getAttribute('data-text');
     if (side) {
       setSok({ ...sok, side: side });
       refetch();
@@ -55,7 +59,7 @@ const SkjemaListe: FC = () => {
   };
 
   const opprett = () => {
-    history.push("/skjemaer/opprett");
+    history.push('/skjemaer/opprett');
   };
 
   return (

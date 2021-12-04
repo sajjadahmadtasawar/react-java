@@ -1,14 +1,15 @@
-import axios from "axios";
+import axios from 'axios';
 
-const axiosInstance =  (history: any = null) => {
-  const API_URL = "http://localhost:8181/api";
+const axiosInstance = (history: any = null) => {
+  const API_URL = 'http://localhost:3000';
 
   let headers = {};
 
   if (localStorage.bruker) {
-    headers = { 
-      'Content-Type': 'application/json', 
-      Authorization: `Bearer ${localStorage.token}` };
+    headers = {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.token}`,
+    };
   }
 
   const axiosInstance = axios.create({
@@ -22,17 +23,15 @@ const axiosInstance =  (history: any = null) => {
         resolve(response);
       }),
     (error) => {
-
-      if(error.response.status === 401) {
-        window.location.href = "logginn";
+      if (error.response.status === 401) {
+        window.location.href = 'logginn';
       }
 
       return Promise.reject(error.response.data);
-
     }
   );
 
   return axiosInstance;
-}
+};
 
-export default axiosInstance
+export default axiosInstance;

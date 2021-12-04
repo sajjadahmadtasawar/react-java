@@ -1,0 +1,51 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "sajjad",
+      "surname": "tasawar",
+      "contact": 346534464,
+      "email": "sajjad@gmail.com",
+      "admin": "true"
+    },
+    {
+      "id": 2,
+      "name": "ahmad",
+      "surname": "khan",
+      "contact": 3456344564,
+      "email": "ahmad@gmail.com",
+      "admin": "false"
+    },
+    {
+      "id": 3,
+      "name": "khan",
+      "surname": "ahmad",
+      "contact": 6234523452,
+      "email": "sajjad@gmail.com",
+      "admin": "false"
+    }
+  ],
+  "projects": [
+    {
+      "id": 4,
+      "name": "vaccination",
+      "manager": "ahmad",
+      "budget": 35353,
+      "date": "22/11/2015"
+    },
+    {
+      "id": 5,
+      "name": "covid-19",
+      "manager": "khan",
+      "budget": 234534,
+      "date": "10/12/2018"
+    },
+    {
+      "id": 5,
+      "name": "construction",
+      "manager": "ali",
+      "budget": 34563456,
+      "date": "05/02/2011"
+    }
+  ]
+}

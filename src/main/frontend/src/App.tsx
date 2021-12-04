@@ -1,24 +1,23 @@
-import { FC } from "react";
-import { Switch, Route } from "react-router-dom";
-import { QueryClientProvider, QueryClient } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
+import { FC } from 'react';
+import { Switch, Route } from 'react-router-dom';
+import { QueryClientProvider, QueryClient } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
-import "styles/styles.css";
-import "styles/App.css";
+import 'styles/styles.css';
+import 'styles/App.css';
 
-import Sidebar from "components/Layout/Sidebar";
-import Dashbaord from "components/Layout/Dashboard";
-import NavbarLayout from "components/Layout/NavbarLayout";
-import Logginn from "components/Auth/Logginn";
-import Liste from "components/Prosjekt/views/Liste";
-import Opprett from "components/Prosjekt/views/Opprett";
-import Endre from "components/Prosjekt/views/Endre";
-import SkjemaListe from "components/Skjema/views/Skjema.liste";
-import SkjemaOpprett from "components/Skjema/views/Skjema.Opprett";
-import SkjemaEndre from "components/Skjema/views/Skjema.Endre";
-
-import ProsjektLederListe from "components/ProsjektLeder/views/Liste";
-import IntervjuObjektListe from "components/IntervjueObjekt/views/Liste";
+import Sidebar from 'components/Layout/Sidebar';
+import Dashbaord from 'components/Layout/Dashboard';
+import NavbarLayout from 'components/Layout/NavbarLayout';
+import Liste from 'components/Prosjekt/views/Liste';
+import Opprett from 'components/Prosjekt/views/Opprett';
+import Endre from 'components/Prosjekt/views/Endre';
+import SkjemaListe from 'components/Skjema/views/Skjema.liste';
+import SkjemaOpprett from 'components/Skjema/views/Skjema.Opprett';
+import SkjemaEndre from 'components/Skjema/views/Skjema.Endre';
+import Logginn from 'components/auth/Logginn';
+import ProsjektLederListe from 'components/ProsjektLeder/views/Liste';
+import IntervjuObjektListe from 'components/IntervjueObjekt/views/Liste';
 
 const queryClient = new QueryClient({
   defaultOptions: {

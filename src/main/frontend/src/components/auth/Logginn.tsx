@@ -5,27 +5,27 @@ import React, {
   useEffect,
   useRef,
   useState,
-} from "react";
-import { useHistory } from "react-router-dom";
-import { Alert, Button, Card, Col, Form, Row } from "react-bootstrap";
-import axios, { AxiosRequestConfig } from "axios";
+} from 'react';
+import { useHistory } from 'react-router-dom';
+import { Alert, Button, Card, Col, Form, Row } from 'react-bootstrap';
+import axios, { AxiosRequestConfig } from 'axios';
 
 const Logginn: FC = () => {
   const [validated, setValidated] = useState(false);
 
   const history = useHistory();
-  const API_URL = "http://localhost:8181/api";
+  const API_URL = 'http://localhost:8181/api';
 
   const inputRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
-  const [brukernavn, setBrukernavn] = useState("");
-  const [passord, setPassord] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [brukernavn, setBrukernavn] = useState('');
+  const [passord, setPassord] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     inputRef.current.focus();
-    localStorage.removeItem("bruker");
-    localStorage.removeItem("token");
+    localStorage.removeItem('bruker');
+    localStorage.removeItem('token');
   }, []);
 
   const handleBrukernavn = (e: BaseSyntheticEvent) => {
@@ -42,9 +42,9 @@ const Logginn: FC = () => {
     e.stopPropagation();
 
     const requestOptions: AxiosRequestConfig = {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
 
       data: { brukernavn: brukernavn, passord: passord },
@@ -57,11 +57,11 @@ const Logginn: FC = () => {
         await axios(`${API_URL}/auth/logginn/`, requestOptions).then((res) => {
           if (res.status === 200) {
             localStorage.token = res.data.accessToken;
-            window.location.href = "/";
+            window.location.href = '/';
           } else {
             setValidated(false);
             setErrorMessage(
-              "Brukernavn eller passord er ikke riktig, Vennligst prøve igjen."
+              'Brukernavn eller passord er ikke riktig, Vennligst prøve igjen.'
             );
             inputRef.current.focus();
           }
@@ -69,7 +69,7 @@ const Logginn: FC = () => {
       } catch (error) {
         setValidated(false);
         setErrorMessage(
-          "Brukernavn eller passord er ikke riktig, Vennligst prøve igjen."
+          'Brukernavn eller passord er ikke riktig, Vennligst prøve igjen.'
         );
         inputRef.current.focus();
       }
